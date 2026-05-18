@@ -15,15 +15,52 @@
   </header>
 
   <main>
+    <button id="btnNovoEvento">
+      Novo Evento
+    </button>
+
     <div id="eventos"></div>
   </main>
 
+  <!-- ============================================
+                    SCRIPTS 
+  ============================================= -->
   <script src="js/api/api.js"></script>
   <script src="js/modules/dashboard.js"></script>
 
   <script>
     carregarDashboard();
   </script>
+
+    <!-- ============= Modal Evento ============= -->
+    <div id="modalEvento" class="modal hidden">
+      <div class="modal-content">
+
+        <h2>Novo Evento</h2>
+
+        <input type="date" id="data">
+
+        <select id="tipo">
+          <option>Casamento</option>
+          <option>Aniversário</option>
+          <option>Ensaio</option>
+          <option>Formatura</option>
+        </select>
+
+        <input type="text" id="cliente" placeholder="Cliente">
+        <input type="text" id="telefone" placeholder="Telefone">
+        <input type="number" id="valor" placeholder="Valor">
+        <input type="number" id="sinal" placeholder="Sinal">
+
+        <button onclick="salvarEvento()">
+          Salvar
+        </button>
+
+        <button onclick="fecharModal()">
+          Cancelar
+        </button>
+      </div>
+  </div>
 
 </body>
 </html>
