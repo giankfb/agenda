@@ -1,4 +1,10 @@
-async function carregarDashboard() {
+const modal = document.getElementById('modalEvento');
+
+document
+  .getElementById('btnNovoEvento')
+  .addEventListener('click', abrirModal);
+
+async function carregarDashboard(){
 
   const eventos = await api('listarEventos');
 
@@ -18,22 +24,49 @@ function renderizarEventos(eventos){
 
         <h3>${evento.CLIENTE}</h3>
 
-        <p><strong>Data:</strong> ${evento.DATA}</p>
+        <p>${evento.DATA}</p>
 
-        <p><strong>Tipo:</strong> ${evento.TIPO}</p>
+        <p>${evento.TIPO}</p>
 
-        <p><strong>Telefone:</strong> ${evento.TELEFONE}</p>
-
-        <p><strong>Valor:</strong> R$ ${evento.VALOR}</p>
-
-        <p><strong>Sinal:</strong> R$ ${evento.SINAL}</p>
-
-        <p><strong>Restante:</strong> R$ ${evento.RESTANTE}</p>
-
-        <p><strong>Status:</strong> ${evento.STATUS}</p>
+        <p>R$ ${evento.VALOR}</p>
 
       </div>
     `;
   });
+}
+
+function abrirModal(){
+  modal.classList.remove('hidden');
+}
+
+function fecharModal(){
+  modal.classList.add('hidden');
+}
+
+async function salvarEvento(){
+
+  const dados = {
+
+    action:'salvarEvento',
+
+    data:document.getElementById('data').value,
+
+    tipo:document.getElementById('tipo').value,
+
+    cliente:document.getElementById('cliente').value,
+
+    telefone:document.getElementById('telefone').value,
+
+    valor:document.getElementById('valor').value,
+
+    sinal:document.getElementById('sinal').value
+
+  };
+
+  await post(dados);
+
+  fecharModal();
+
+  carregarDashboard();
 
 }
