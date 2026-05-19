@@ -171,3 +171,7 @@ button{
 
   resize:vertical;
 }
+
+#btnExcluir{
+  background:#e74c3c;
+}

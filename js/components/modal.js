@@ -5,8 +5,21 @@ function getModal(){
 /* ============ ABRIR ========== */
 function abrirModal(){
 
+  const btnExcluir =
+    document.getElementById(
+      'btnExcluir'
+    );
+
   if(!eventoEditando){
+
     limparFormulario();
+
+    btnExcluir.style.display = 'none';
+
+  }else{
+
+    btnExcluir.style.display = 'block';
+
   }
 
   getModal()

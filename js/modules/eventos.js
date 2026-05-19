@@ -113,6 +113,33 @@ async function excluirEvento(id){
   carregarDashboard();
 }
 
+/* ============ EXCLUIR ATUAL ========== */
+async function excluirEventoAtual(){
+
+  if(!eventoEditando) return;
+
+  const confirmar = confirm(
+    'Deseja excluir este evento?'
+  );
+
+  if(!confirmar) return;
+
+  await post({
+
+    action:'excluirEvento',
+
+    id:eventoEditando
+
+  });
+
+  eventoEditando = null;
+
+  fecharModal();
+
+  carregarDashboard();
+
+}
+
 /* ============ WHATSAPP ========== */
 function abrirWhatsapp(){
 

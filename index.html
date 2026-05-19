@@ -15,11 +15,7 @@
     <h1>Agenda Fotografia</h1>
   </header>
 
-  <main>
-    <button id="btnNovoEvento">
-      Novo Evento
-    </button>
-
+  <main> 
     <div id="dashboard-cards"></div>
     <div id="calendar"></div>
   </main>
@@ -41,28 +37,17 @@
       <input type="text" id="telefone" placeholder="Telefone">
       <input type="number" id="valor" placeholder="Valor">
       <input type="number" id="sinal" placeholder="Sinal">
+      <input type="text" id="local" placeholder="Local do evento">
+      <input type="time" id="horario">
+      <textarea id="observacoes" placeholder="Observações">
+        
+      </textarea>
 
       <select id="status">
         <option value="Pendente"> Pendente </option>
         <option value="Pago"> Pago </option>
         <option value="Cancelado"> Cancelado </option>
-      </select>
-
-      <input
-        type="text"
-        id="local"
-        placeholder="Local do evento"
-      >
-
-      <input
-        type="time"
-        id="horario"
-      >
-
-      <textarea
-        id="observacoes"
-        placeholder="Observações"
-      ></textarea>
+      </select>      
 
       <button onclick="abrirWhatsapp()">
         WhatsApp
@@ -70,6 +55,11 @@
 
       <button onclick="salvarEvento()">
         Salvar
+      </button>
+
+      <button id="btnExcluir"
+        onclick="excluirEventoAtual()">
+        Excluir Evento
       </button>
 
       <button onclick="fecharModal()">
