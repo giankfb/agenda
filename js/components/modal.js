@@ -36,7 +36,7 @@ function limparFormulario(){
 
   document.getElementById('valor').value = '';
 
-  document.getElementById('sinal').value = '';
+  document.getElementById('sinal').value = ' ';
 
   document.getElementById('status').value = 'Pendente';
 
