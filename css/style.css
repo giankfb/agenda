@@ -123,3 +123,36 @@ button{
   position:relative;
   z-index:1;
 }
+
+#dashboard-cards{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+  gap:15px;
+
+  margin-bottom:20px;
+}
+
+.card-dashboard{
+
+  background:white;
+
+  padding:20px;
+
+  border-radius:12px;
+
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-dashboard h3{
+  font-size:14px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+.card-dashboard h2{
+  font-size:28px;
+}
