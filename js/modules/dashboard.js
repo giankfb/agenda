@@ -1,9 +1,6 @@
-const modal = document.getElementById('modalEvento');
+let eventoEditando = null;
 
-document
-  .getElementById('btnNovoEvento')
-  .addEventListener('click', abrirModal);
-
+/* ============== RENDER DASH ============== */
 async function carregarDashboard(){
 
   const eventos = await api('listarEventos');
@@ -11,6 +8,35 @@ async function carregarDashboard(){
   renderizarEventos(eventos);
 }
 
+
+/* ==============================================
+                      MODAL 
+ ============================================= */
+
+function getModal(){
+  return document.getElementById('modalEvento');
+}
+
+document
+  .getElementById('btnNovoEvento')
+  .addEventListener('click', abrirModal);
+
+/* =================== ABRIR ================= */
+function abrirModal(){
+  getModal().classList.remove('hidden');
+}
+
+/* =================== FECHAR ================= */
+function fecharModal(){
+  getModal().classList.add('hidden');
+}
+
+
+/* ==============================================
+                      EVENTO 
+ ============================================= */
+
+/* ============== RENDER EVENTOS ============== */
 function renderizarEventos(eventos){
 
   const container = document.getElementById('eventos');
@@ -24,30 +50,40 @@ function renderizarEventos(eventos){
 
         <h3>${evento.CLIENTE}</h3>
 
-        <p>${evento.DATA}</p>
+        <p><strong>Data:</strong> ${evento.DATA}</p>
 
-        <p>${evento.TIPO}</p>
+        <p><strong>Tipo:</strong> ${evento.TIPO}</p>
 
-        <p>R$ ${evento.VALOR}</p>
+        <p><strong>Valor:</strong> R$ ${evento.VALOR}</p>
+
+        <div class="acoes">
+
+          <button onclick="editarEvento('${evento.ID}')">
+            Editar
+          </button>
+
+          <button onclick="excluirEvento('${evento.ID}')">
+            Excluir
+          </button>
+
+        </div>
 
       </div>
     `;
   });
+
 }
 
-function abrirModal(){
-  modal.classList.remove('hidden');
-}
-
-function fecharModal(){
-  modal.classList.add('hidden');
-}
-
+/* =================== SALVAR ================= */
 async function salvarEvento(){
 
   const dados = {
 
-    action:'salvarEvento',
+    action: eventoEditando
+      ? 'editarEvento'
+      : 'salvarEvento',
+
+    id: eventoEditando,
 
     data:document.getElementById('data').value,
 
@@ -65,7 +101,51 @@ async function salvarEvento(){
 
   await post(dados);
 
+  eventoEditando = null;
+
   fecharModal();
+
+  carregarDashboard();
+
+}
+
+/* =================== EDITAR ================= */
+async function editarEvento(id){
+
+  const eventos = await api('listarEventos');
+
+  const evento = eventos.find(e => e.ID == id);
+
+  eventoEditando = id;
+
+  document.getElementById('data').value = evento.DATA;
+
+  document.getElementById('tipo').value = evento.TIPO;
+
+  document.getElementById('cliente').value = evento.CLIENTE;
+
+  document.getElementById('telefone').value = evento.TELEFONE;
+
+  document.getElementById('valor').value = evento.VALOR;
+
+  document.getElementById('sinal').value = evento.SINAL;
+
+  abrirModal();
+}
+
+/* =================== EXCLUIR ================= */
+async function excluirEvento(id){
+
+  const confirmar = confirm(
+    'Deseja excluir este evento?'
+  );
+
+  if(!confirmar) return;
+
+  await post({
+    action:'excluirEvento',
+    id
+  });
 
   carregarDashboard();
 
