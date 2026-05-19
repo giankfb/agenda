@@ -1,24 +1,30 @@
-const CACHE_NAME = 'agenda-fotografia-v1';
+const CACHE_NAME = 'agenda-v1';
 
 const urlsToCache = [
 
-  '/',
+  './',
 
-  '/index.html',
+  './index.html',
 
-  '/css/style.css',
+  './manifest.json',
 
-  '/js/api/api.js',
+  './css/style.css',
 
-  '/js/components/modal.js',
+  './js/api/api.js',
 
-  '/js/components/cards.js',
+  './js/components/modal.js',
 
-  '/js/components/calendar.js',
+  './js/components/cards.js',
 
-  '/js/modules/eventos.js',
+  './js/components/calendar.js',
 
-  '/js/modules/dashboard.js'
+  './js/modules/eventos.js',
+
+  './js/modules/dashboard.js',
+
+  './icons/icon-192.png',
+
+  './icons/icon-512.png'
 
 ];
 
@@ -27,9 +33,28 @@ self.addEventListener('install', event => {
   event.waitUntil(
 
     caches.open(CACHE_NAME)
+
       .then(cache => {
 
-        return cache.addAll(urlsToCache);
+        return Promise.all(
+
+          urlsToCache.map(url => {
+
+            return cache.add(url)
+
+              .catch(err => {
+
+                console.error(
+                  'Erro cache:',
+                  url,
+                  err
+                );
+
+              });
+
+          })
+
+        );
 
       })
 
@@ -42,9 +67,11 @@ self.addEventListener('fetch', event => {
   event.respondWith(
 
     caches.match(event.request)
+
       .then(response => {
 
-        return response || fetch(event.request);
+        return response ||
+          fetch(event.request);
 
       })
 
