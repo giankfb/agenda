@@ -12,58 +12,102 @@
 </head>
 <body>
 
+  <!-- =========================================
+                  TOPO
+  ========================================== -->
+
   <header class="topbar">
-
-    <div class="filtros">
-
-      <input
-        type="text"
-        id="busca"
-        placeholder="Buscar cliente..."
-      >
-
-      <select id="filtroStatus">
-
-        <option value="Todos">
-          Todos
-        </option>
-
-        <option value="Pendente">
-          Pendentes
-        </option>
-
-        <option value="Pago">
-          Pagos
-        </option>
-
-        <option value="Cancelado">
-          Cancelados
-        </option>
-
-      </select>
-
-    </div>
 
     <div>
       <h1>Agenda</h1>
       <p>Controle de eventos</p>
     </div>
 
-    <button id="btnNovoEvento">
+    <button
+      id="btnNovoEvento"
+      onclick="abrirModal()"
+    >
       +
     </button>
 
   </header>
 
-  <main> 
+  <!-- =========================================
+                FILTROS
+  ========================================== -->
+
+  <section class="filtros">
+
+    <input
+      type="text"
+      id="busca"
+      placeholder="Buscar cliente..."
+    >
+
+    <select id="filtroStatus">
+
+      <option value="Todos">
+        Todos
+      </option>
+
+      <option value="Pendente">
+        Pendentes
+      </option>
+
+      <option value="Pago">
+        Pagos
+      </option>
+
+      <option value="Cancelado">
+        Cancelados
+      </option>
+
+    </select>
+
+  </section>
+
+  <!-- =========================================
+                DASHBOARD
+  ========================================== -->
+
+  <main>
+
     <div id="dashboard-cards"></div>
-    <div id="calendar"></div>
+
+    <div id="listaEventos"></div>
+
+    <div class="acoes-topo">
+
+      <button id="toggleCalendario">
+        Ver Calendário
+      </button>
+
+    </div>
+
+    <div
+      id="calendarContainer"
+      class="hidden"
+    >
+
+      <div id="calendar"></div>
+
+    </div>
+
   </main>
 
-  <!-- ============= Modal Evento ============= -->
-  <div id="modalEvento" class="modal hidden">
+  <!-- =========================================
+                  MODAL
+  ========================================== -->
+
+  <div
+    id="modalEvento"
+    class="modal hidden"
+  >
+
     <div class="modal-content">
+
       <h2>Novo Evento</h2>
+
       <input type="date" id="data">
 
       <select id="tipo">
@@ -73,22 +117,70 @@
         <option>Formatura</option>
       </select>
 
-      <input type="text" id="cliente" placeholder="Cliente">
-      <input type="text" id="telefone" placeholder="Telefone">
-      <input type="number" id="valor" oninput="calcularRestante()">
-      <input type="number" id="sinal" oninput="calcularRestante()">
-      <input type="number" id="restante" placeholder="Restante" readonly>
-      <input type="text" id="local" placeholder="Local do evento">
-      <input type="time" id="horario">
-      <textarea id="observacoes" placeholder="Observações">
-        
-      </textarea>
+      <input
+        type="text"
+        id="cliente"
+        placeholder="Cliente"
+      >
+
+      <input
+        type="text"
+        id="telefone"
+        placeholder="Telefone"
+      >
+
+      <input
+        type="number"
+        id="valor"
+        placeholder="Valor"
+        oninput="calcularRestante()"
+      >
+
+      <input
+        type="number"
+        id="sinal"
+        placeholder="Sinal"
+        oninput="calcularRestante()"
+      >
+
+      <input
+        type="number"
+        id="restante"
+        placeholder="Restante"
+        readonly
+      >
+
+      <input
+        type="text"
+        id="local"
+        placeholder="Local do evento"
+      >
+
+      <input
+        type="time"
+        id="horario"
+      >
+
+      <textarea
+        id="observacoes"
+        placeholder="Observações"
+      ></textarea>
 
       <select id="status">
-        <option value="Pendente"> Pendente </option>
-        <option value="Pago"> Pago </option>
-        <option value="Cancelado"> Cancelado </option>
-      </select>      
+
+        <option value="Pendente">
+          Pendente
+        </option>
+
+        <option value="Pago">
+          Pago
+        </option>
+
+        <option value="Cancelado">
+          Cancelado
+        </option>
+
+      </select>
 
       <button onclick="abrirWhatsapp()">
         WhatsApp
@@ -98,58 +190,57 @@
         Salvar
       </button>
 
-      <button id="btnExcluir"
-        onclick="excluirEventoAtual()">
+      <button
+        id="btnExcluir"
+        onclick="excluirEventoAtual()"
+      >
         Excluir Evento
       </button>
 
       <button onclick="fecharModal()">
         Cancelar
       </button>
+
     </div>
+
   </div>
 
-  
+  <!-- =========================================
+                  SCRIPTS
+  ========================================== -->
 
-  <!-- ============================================
-                    SCRIPTS 
-  ============================================= -->
+  <script src="js/api/api.js"></script>
 
-  
+  <script src="js/components/modal.js"></script>
 
-<script src="js/api/api.js"></script>
+  <script src="js/components/calendar.js"></script>
 
-<script src="js/components/modal.js"></script>
+  <script src="js/components/cards.js"></script>
 
-<script src="js/components/calendar.js"></script>
+  <script src="js/modules/eventos.js"></script>
 
-<script src="js/components/cards.js"></script>
-
-<script src="js/modules/eventos.js"></script>
-
-<script src="js/modules/dashboard.js"></script>
-
-
-  <script>
-    carregarDashboard();
-  </script>  
+  <script src="js/modules/dashboard.js"></script>
 
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+
   <script>
 
-if('serviceWorker' in navigator){
+    carregarDashboard();
 
-  navigator.serviceWorker
-    .register('./sw.js')
+    if('serviceWorker' in navigator){
 
-    .then(() => {
+      navigator.serviceWorker
+        .register('./sw.js')
 
-      console.log('PWA ativo');
+        .then(() => {
 
-    });
+          console.log('PWA ativo');
 
-}
+        });
 
-</script>
+    }
+
+  </script>
+
 </body>
 </html>

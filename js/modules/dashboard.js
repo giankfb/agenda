@@ -73,6 +73,8 @@ function aplicarFiltros(){
 
   renderizarCalendario(filtrados);
 
+  renderizarLista(filtrados);
+
 }
 
 document
@@ -88,6 +90,18 @@ document
     'change',
     aplicarFiltros
   );
+
+  document
+  .getElementById('toggleCalendario')
+
+  .addEventListener('click', () => {
+
+    document
+      .getElementById('calendarContainer')
+      .classList
+      .toggle('hidden');
+
+  });
 
   function normalizarTexto(texto){
 

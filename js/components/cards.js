@@ -69,3 +69,55 @@ function renderizarCards(eventos){
 
   `;
 }
+
+function renderizarLista(eventos){
+
+  const container =
+    document.getElementById(
+      'listaEventos'
+    );
+
+  container.innerHTML = '';
+
+  eventos.forEach(evento => {
+
+    const statusClass =
+      evento.STATUS.toLowerCase();
+
+    container.innerHTML += `
+
+      <div
+        class="card-evento"
+        onclick="editarEvento('${evento.ID}')"
+      >
+
+        <div class="card-evento-topo">
+
+          <h3>
+            ${evento.CLIENTE}
+          </h3>
+
+          <span class="badge ${statusClass}">
+            ${evento.STATUS}
+          </span>
+
+        </div>
+
+        <p>
+          📅 ${evento.DATA}
+        </p>
+
+        <p>
+          💰 R$ ${evento.RESTANTE}
+        </p>
+
+        <p>
+          📍 ${evento.LOCAL || '-'}
+        </p>
+
+      </div>
+
+    `;
+  });
+
+}
