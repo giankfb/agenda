@@ -129,7 +129,6 @@
 
 <script src="js/modules/dashboard.js"></script>
 
-<script src="icons/192.png"></script>
 
   <script>
     carregarDashboard();
@@ -141,7 +140,7 @@
 if('serviceWorker' in navigator){
 
   navigator.serviceWorker
-    .register('/sw.js')
+    .register('./sw.js')
 
     .then(() => {
 

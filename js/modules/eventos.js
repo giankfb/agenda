@@ -39,12 +39,10 @@ async function salvarEvento(){
       document.getElementById('horario').value,
 
     observacoes:
-      document.getElementById('observacoes').value, 
+      document.getElementById('observacoes').value,
 
-   restante:
-      document.getElementById('restante').value,
-
-calcularRestante();  
+    restante:
+      document.getElementById('restante').value
 
   };
 
@@ -101,6 +99,7 @@ async function editarEvento(id){
   document.getElementById('restante').value =
     evento.RESTANTE;     
 
+  calcularRestante();
   abrirModal();
 }
 
