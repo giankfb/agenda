@@ -8,30 +8,6 @@ async function carregarDashboard(){
   renderizarEventos(eventos);
 }
 
-
-/* ==============================================
-                      MODAL 
- ============================================= */
-
-function getModal(){
-  return document.getElementById('modalEvento');
-}
-
-document
-  .getElementById('btnNovoEvento')
-  .addEventListener('click', abrirModal);
-
-/* =================== ABRIR ================= */
-function abrirModal(){
-  getModal().classList.remove('hidden');
-}
-
-/* =================== FECHAR ================= */
-function fecharModal(){
-  getModal().classList.add('hidden');
-}
-
-
 /* ==============================================
                       EVENTO 
  ============================================= */
@@ -166,4 +142,26 @@ async function excluirEvento(id){
 
   carregarDashboard();
 
+}
+
+/* ==============================================
+                      MODAL 
+ ============================================= */
+
+function getModal(){
+  return document.getElementById('modalEvento');
+}
+
+document
+  .getElementById('btnNovoEvento')
+  .addEventListener('click', abrirModal);
+
+/* =================== ABRIR ================= */
+function abrirModal(){
+  getModal().classList.remove('hidden');
+}
+
+/* =================== FECHAR ================= */
+function fecharModal(){
+  getModal().classList.add('hidden');
 }
