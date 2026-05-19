@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="theme-color" content="#000000">
   <title>Agenda Fotografia</title>
 
   <link rel="stylesheet" href="css/style.css">
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -102,6 +103,21 @@
   </script>  
 
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+  <script>
 
+if('serviceWorker' in navigator){
+
+  navigator.serviceWorker
+    .register('/sw.js')
+
+    .then(() => {
+
+      console.log('PWA ativo');
+
+    });
+
+}
+
+</script>
 </body>
 </html>
