@@ -91,17 +91,41 @@ document
     aplicarFiltros
   );
 
-  document
-  .getElementById('toggleCalendario')
+  const btn =
+  document.getElementById(
+    'toggleCalendario'
+  );
 
-  .addEventListener('click', () => {
+btn.addEventListener('click', () => {
 
-    document
-      .getElementById('calendarContainer')
-      .classList
-      .toggle('hidden');
+  const container =
+    document.getElementById(
+      'calendarContainer'
+    );
 
-  });
+  const aberto =
+    container.classList.toggle(
+      'hidden'
+    );
+
+  btn.innerText =
+    aberto
+      ? 'Ver Calendário'
+      : 'Ocultar Calendário';
+
+  setTimeout(() => {
+
+    if(calendar){
+
+      calendar.render();
+
+      calendar.updateSize();
+
+    }
+
+  },200);
+
+});
 
   function normalizarTexto(texto){
 

@@ -1,3 +1,5 @@
+let calendar;
+
 function renderizarCalendario(eventos){
 
   const calendarEl =
@@ -5,7 +7,7 @@ function renderizarCalendario(eventos){
 
   calendarEl.innerHTML = '';
 
-  const calendar =
+  calendar =
     new FullCalendar.Calendar(
       calendarEl,
       {
