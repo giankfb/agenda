@@ -41,6 +41,11 @@ async function salvarEvento(){
     observacoes:
       document.getElementById('observacoes').value, 
 
+   restante:
+      document.getElementById('restante').value,
+
+calcularRestante();  
+
   };
 
   await post(dados);
@@ -91,7 +96,10 @@ async function editarEvento(id){
     evento.HORARIO || '';
 
   document.getElementById('observacoes').value =
-    evento.OBSERVACOES || '';    
+    evento.OBSERVACOES || ''; 
+
+  document.getElementById('restante').value =
+    evento.RESTANTE;     
 
   abrirModal();
 }
@@ -152,4 +160,37 @@ function abrirWhatsapp(){
     `https://wa.me/55${telefone}`,
     '_blank'
   );
+}
+
+/* ============ CALCULO ========== */
+function calcularRestante(){
+
+  const valor =
+    Number(
+      document.getElementById('valor').value
+    ) || 0;
+
+  const sinal =
+    Number(
+      document.getElementById('sinal').value
+    ) || 0;
+
+  const restante = valor - sinal;
+
+  document.getElementById('restante').value =
+    restante;
+
+  const status =
+    document.getElementById('status');
+
+  if(restante <= 0){
+
+    status.value = 'Pago';
+
+  }else{
+
+    status.value = 'Pendente';
+
+  }
+
 }

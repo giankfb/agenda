@@ -239,5 +239,30 @@ button{
 
     overflow-y:auto;
   }
+}
 
+input[readonly]{
+
+  background:#f0f0f0;
+
+  font-weight:bold;
+}
+
+.filtros{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-bottom:20px;
+
+  flex-wrap:wrap;
+}
+
+.filtros input,
+.filtros select{
+
+  flex:1;
+
+  min-width:180px;
 }

@@ -1,17 +1,102 @@
+let eventosGlobais = [];
+
 async function carregarDashboard(){
 
   const eventos =
     await api('listarEventos');
 
-  renderizarCards(eventos);
+  eventosGlobais = eventos;
 
-  renderizarCalendario(eventos);
+  aplicarFiltros();
+
+}
+
+function aplicarFiltros(){
+
+  const busca =
+    normalizarTexto(
+      document
+        .getElementById('busca')
+        .value
+    )
+
+  const status =
+    document
+      .getElementById('filtroStatus')
+      .value;
+
+  let filtrados =
+    eventosGlobais.filter(evento => {
+
+      const matchBusca =
+
+        normalizarTexto(
+          String(evento.CLIENTE || '')
+        )
+          
+          .includes(busca)
+
+        ||
+
+        String(evento.TELEFONE || '')
+          .includes(busca)
+
+        ||
+
+        String(evento.TIPO || '')
+          .toLowerCase()
+          .includes(busca);
+
+      const matchStatus =
+
+        status === 'Todos'
+
+        ||
+
+        evento.STATUS === status;
+
+      return (
+        matchBusca &&
+        matchStatus
+      );
+
+    });
+
+    filtrados.sort((a,b) => {
+
+      return new Date(a.DATA)
+        - new Date(b.DATA);
+
+    });
+
+  renderizarCards(filtrados);
+
+  renderizarCalendario(filtrados);
 
 }
 
 document
-  .getElementById('btnNovoEvento')
+  .getElementById('busca')
   .addEventListener(
-    'click',
-    abrirModal
+    'input',
+    aplicarFiltros
   );
+
+document
+  .getElementById('filtroStatus')
+  .addEventListener(
+    'change',
+    aplicarFiltros
+  );
+
+  function normalizarTexto(texto){
+
+  return texto
+
+    .normalize('NFD')
+
+    .replace(/[\u0300-\u036f]/g,'')
+
+    .toLowerCase();
+
+}
