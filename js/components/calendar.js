@@ -21,14 +21,18 @@ function renderizarCalendario(eventos){
           id:evento.ID,
 
           title:
-            `${evento.CLIENTE}`,
+          `${evento.CLIENTE} • R$ ${evento.RESTANTE}`,
 
           start:evento.DATA,
 
-          color:
-            evento.STATUS === 'Pago'
-              ? 'green'
-              : '#f39c12',
+        color:
+          evento.STATUS === 'Pago'
+            ? '#27ae60'
+
+            : evento.STATUS === 'Cancelado'
+            ? '#e74c3c'
+
+            : '#f39c12',
 
           extendedProps:{
             ...evento

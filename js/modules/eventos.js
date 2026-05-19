@@ -1,5 +1,6 @@
 let eventoEditando = null;
 
+/* ============ SALVAR ========== */
 async function salvarEvento(){
 
   const dados = {
@@ -26,7 +27,19 @@ async function salvarEvento(){
       document.getElementById('valor').value,
 
     sinal:
-      document.getElementById('sinal').value
+      document.getElementById('sinal').value,
+
+    status:
+      document.getElementById('status').value,
+
+    local:
+      document.getElementById('local').value,
+
+    horario:
+      document.getElementById('horario').value,
+
+    observacoes:
+      document.getElementById('observacoes').value, 
 
   };
 
@@ -39,6 +52,7 @@ async function salvarEvento(){
   carregarDashboard();
 }
 
+/* ============ EDITAR ========== */
 async function editarEvento(id){
 
   const eventos =
@@ -67,9 +81,22 @@ async function editarEvento(id){
   document.getElementById('sinal').value =
     evento.SINAL;
 
+  document.getElementById('status').value =
+    evento.STATUS;  
+
+  document.getElementById('local').value =
+    evento.LOCAL || '';
+
+  document.getElementById('horario').value =
+    evento.HORARIO || '';
+
+  document.getElementById('observacoes').value =
+    evento.OBSERVACOES || '';    
+
   abrirModal();
 }
 
+/* ============ EXCLUIR ========== */
 async function excluirEvento(id){
 
   const confirmar = confirm(
@@ -84,4 +111,18 @@ async function excluirEvento(id){
   });
 
   carregarDashboard();
+}
+
+/* ============ WHATSAPP ========== */
+function abrirWhatsapp(){
+
+  const telefone =
+    document.getElementById('telefone').value;
+
+  if(!telefone) return;
+
+  window.open(
+    `https://wa.me/55${telefone}`,
+    '_blank'
+  );
 }

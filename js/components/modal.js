@@ -2,6 +2,7 @@ function getModal(){
   return document.getElementById('modalEvento');
 }
 
+/* ============ ABRIR ========== */
 function abrirModal(){
 
   if(!eventoEditando){
@@ -13,6 +14,7 @@ function abrirModal(){
     .remove('hidden');
 }
 
+/* ============ FECHAR ========== */
 function fecharModal(){
 
   getModal()
@@ -20,6 +22,7 @@ function fecharModal(){
     .add('hidden');
 }
 
+/* ============ LIMPAR ========== */
 function limparFormulario(){
 
   document.getElementById('data').value = '';
@@ -34,5 +37,13 @@ function limparFormulario(){
   document.getElementById('valor').value = '';
 
   document.getElementById('sinal').value = '';
+
+  document.getElementById('status').value = 'Pendente';
+
+  document.getElementById('local').value = '';
+
+  document.getElementById('horario').value = '';
+
+  document.getElementById('observacoes').value = '';
 
 }
