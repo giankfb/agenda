@@ -39,38 +39,55 @@ function fecharModal(){
 /* ============== RENDER EVENTOS ============== */
 function renderizarEventos(eventos){
 
-  const container = document.getElementById('eventos');
+  const calendarEl =
+    document.getElementById('calendar');
 
-  container.innerHTML = '';
+  calendarEl.innerHTML = '';
 
-  eventos.forEach(evento => {
+  const calendar = new FullCalendar.Calendar(
+    calendarEl,
+    {
 
-    container.innerHTML += `
-      <div class="card-evento">
+      initialView:'dayGridMonth',
 
-        <h3>${evento.CLIENTE}</h3>
+      locale:'pt-br',
 
-        <p><strong>Data:</strong> ${evento.DATA}</p>
+      height:'auto',
 
-        <p><strong>Tipo:</strong> ${evento.TIPO}</p>
+      events: eventos.map(evento => ({
 
-        <p><strong>Valor:</strong> R$ ${evento.VALOR}</p>
+        id:evento.ID,
 
-        <div class="acoes">
+        title:evento.CLIENTE,
 
-          <button onclick="editarEvento('${evento.ID}')">
-            Editar
-          </button>
+        start:evento.DATA,
 
-          <button onclick="excluirEvento('${evento.ID}')">
-            Excluir
-          </button>
+        extendedProps:{
+          ...evento
+        }
 
-        </div>
+      })),
 
-      </div>
-    `;
-  });
+      eventClick:function(info){
+
+        editarEvento(info.event.id);
+
+      },
+
+      dateClick:function(info){
+
+        abrirModal();
+
+        document
+          .getElementById('data')
+          .value = info.dateStr;
+
+      }
+
+    }
+  );
+
+  calendar.render();
 
 }
 
