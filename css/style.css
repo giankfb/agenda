@@ -4,6 +4,7 @@
   box-sizing:border-box;
 }
 
+/* ========== body ========== */  
 body{
   font-family:Arial;
   background:#f5f5f5;
@@ -13,6 +14,47 @@ body{
   min-height:100vh;
 }
 
+
+/* ========== button ========== */
+button{
+  background:#000;
+  color:#fff;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+
+button:active{
+  transform:scale(0.97);
+}
+
+.btn-small{
+  padding:6px 10px;
+  font-size:12px;
+  border-radius:8px;
+  margin:0;
+}
+
+#btnExcluir{
+  background:#e74c3c;
+}
+
+#btnNovoEvento{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+
+
+/* ========== card ========== */
 .card-evento{
   background:white;
   padding:18px;
@@ -23,104 +65,17 @@ body{
   gap:8px;
 }
 
-button{
-  background:#000;
-  color:#fff;
-  border:none;
-  padding:12px 20px;
-  border-radius:8px;
-  cursor:pointer;
-  margin-bottom:20px;
-}
-
-/* ========== modal ======== */
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-
-  width:100%;
-  height:100%;
-
-  background:rgba(0,0,0,0.6);
-
+.card-acoes{
   display:flex;
-  align-items:center;
-  justify-content:center;
-
-  z-index:9999;
-}
-
-.modal-content{
-
-  background:white;
-
-  width:90%;
-  max-width:500px;
-
-  padding:25px;
-
-  border-radius:12px;
-
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-
-  position:relative;
-
-  z-index:10000;
-}
-
-.modal-content h2{
-  margin-bottom:10px;
-}
-
-.modal-content input,
-.modal-content select{
-
-  width:100%;
-
-  padding:12px;
-
-  border:1px solid #ccc;
-
-  border-radius:8px;
-
-  font-size:16px;
-}
-
-.hidden{
-  display:none;
-}
-
-
-.acoes{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
-
-/* ========== calendar ======== */
-#calendar{
-  background:white;
-  padding:20px;
-  border-radius:10px;
-}
-
-.fc{
-  position:relative;
-  z-index:1;
+  gap:8px;
+  margin-top:10px;
 }
 
 #dashboard-cards{
-
   display:grid;
-
   grid-template-columns:
     repeat(auto-fit,minmax(220px,1fr));
-
   gap:15px;
-
   margin-bottom:20px;
 }
 
@@ -142,33 +97,113 @@ button{
   font-size:28px;
 }
 
-.modal-content textarea{
+.card-evento{
+  background:white;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
+.card-evento-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+
+/* ========== modal ========== */
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
   width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
 
-  min-height:100px;
+.modal-content{
+  background:white;
+  width:90%;
+  max-width:500px;
+  padding:25px;
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+  z-index:10000;
+}
 
+.modal-content h2{
+  margin-bottom:10px;
+}
+
+.modal-content input,
+.modal-content select{
+  width:100%;
   padding:12px;
-
   border:1px solid #ccc;
-
   border-radius:8px;
+  font-size:16px;
+}
 
+.modal-content textarea{
+  width:100%;
+  min-height:100px;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
   resize:vertical;
 }
 
-#btnExcluir{
-  background:#e74c3c;
+
+/* ========== acoes ======== */
+.acoes{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
 }
 
-.topbar{
-
+.acoes-topo{
   display:flex;
+  justify-content:center;
+  margin-bottom:20px;
+}
 
+
+/* ========== fc ======== */
+.fc{
+  position:relative;
+  z-index:1;
+}
+
+.fc .fc-toolbar{
+  flex-direction:column;
+  gap:10px;
+}
+
+.fc .fc-toolbar-title{
+  font-size:20px;
+}
+
+.fc button{
+  padding:8px 12px;
+}
+
+
+/* ========== topbar ========== */
+.topbar{
+  display:flex;
   justify-content:space-between;
-
   align-items:center;
-
   margin-bottom:20px;
 }
 
@@ -181,126 +216,63 @@ button{
   margin-top:5px;
 }
 
-#btnNovoEvento{
 
-  width:55px;
-  height:55px;
-
-  border-radius:50%;
-
-  font-size:28px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-}
-
-.fc .fc-toolbar{
-
-  flex-direction:column;
-
-  gap:10px;
-}
-
-.fc .fc-toolbar-title{
-  font-size:20px;
-}
-
-.fc button{
-  padding:8px 12px;
-}
-
+/* ========== diversos ========== */
 @media(max-width:768px){
 
   .modal-content{
-
     width:100%;
     height:100%;
-
     max-width:none;
-
     border-radius:0;
-
     overflow-y:auto;
   }
 }
 
+#calendar{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+}
+
+#listaEventos{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:20px;
+}
+
 input[readonly]{
-
   background:#f0f0f0;
-
   font-weight:bold;
 }
 
+.hidden{
+  display:none;
+}
+
+
+/* ========== filtros ========== */
 .filtros{
-
   display:flex;
-
   gap:10px;
-
   margin-bottom:20px;
-
   flex-wrap:wrap;
 }
 
 .filtros input,
 .filtros select{
-
   flex:1;
-
   min-width:180px;
 }
 
-#listaEventos{
 
-  display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-
-  margin-bottom:20px;
-}
-
-.card-evento{
-
-  background:white;
-
-  padding:18px;
-
-  border-radius:16px;
-
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.08);
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:8px;
-}
-
-.card-evento-topo{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-}
-
+/* ========== badge ========== */
 .badge{
-
   padding:5px 10px;
-
   border-radius:999px;
-
   font-size:12px;
-
   color:white;
-
   font-weight:bold;
 }
 
@@ -314,13 +286,4 @@ input[readonly]{
 
 .badge.cancelado{
   background:#e74c3c;
-}
-
-.acoes-topo{
-
-  display:flex;
-
-  justify-content:center;
-
-  margin-bottom:20px;
 }

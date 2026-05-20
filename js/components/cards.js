@@ -115,6 +115,32 @@ function renderizarLista(eventos){
           📍 ${evento.LOCAL || '-'}
         </p>
 
+        <div class="card-acoes">
+          <button
+            class="btn-small"
+            onclick="
+              event.stopPropagation();
+              editarEvento('${evento.ID}')
+            "
+          >
+            Editar
+          </button>
+
+          <button
+            class="btn-small"
+            onclick="
+              event.stopPropagation();
+              window.open(
+                'https://wa.me/55${evento.TELEFONE}',
+                '_blank'
+              )
+            "
+          >
+            Whats
+          </button>
+
+        </div>
+
       </div>
 
     `;
