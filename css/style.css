@@ -43,14 +43,17 @@ button:active{
 }
 
 #btnNovoEvento{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  font-size:28px;
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  font-size:30px;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:0;
+  background:#000;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.18);
 }
 
 
@@ -82,9 +85,9 @@ button:active{
 .card-dashboard{
   background:white;
   padding:20px;
-  border-radius:18px;
+  border-radius:22px;
   box-shadow:
-    0 4px 10px rgba(0,0,0,0.08);
+    0 3px 10px rgba(0,0,0,0.06);
 }
 
 .card-dashboard h3{
@@ -100,18 +103,23 @@ button:active{
 .card-evento{
   background:white;
   padding:18px;
-  border-radius:16px;
+  border-radius:22px;
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.08);
+    0 3px 10px rgba(0,0,0,0.06);
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:10px;
+  transition:0.2s;
 }
 
 .card-evento-topo{
   display:flex;
   justify-content:space-between;
   align-items:center;
+}
+
+.card-evento:active{
+  transform:scale(0.98);
 }
 
 
@@ -204,7 +212,7 @@ button:active{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 
 .topbar h1{
@@ -226,6 +234,22 @@ button:active{
     max-width:none;
     border-radius:0;
     overflow-y:auto;
+  }
+
+  body{
+
+    padding:12px;
+  }
+
+  .filtros{
+
+    flex-direction:column;
+  }
+
+  .filtros input,
+  .filtros select{
+
+    width:100%;
   }
 }
 
@@ -255,15 +279,33 @@ input[readonly]{
 /* ========== filtros ========== */
 .filtros{
   display:flex;
-  gap:10px;
+  gap:12px;
   margin-bottom:20px;
-  flex-wrap:wrap;
+  align-items:center;
 }
 
 .filtros input,
 .filtros select{
+  background:white;
+  border:none;
+  padding:14px 16px;
+  border-radius:14px;
+  font-size:15px;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.06);
+  outline:none;
+  transition:0.2s;
+  color:#333;
+}
+
+.filtros input{
   flex:1;
-  min-width:180px;
+}
+
+.filtros input:focus,
+.filtros select:focus{
+  box-shadow:
+    0 0 0 3px rgba(0,0,0,0.08);
 }
 
 

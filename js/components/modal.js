@@ -14,11 +14,13 @@ function abrirModal(){
 
     limparFormulario();
 
-    btnExcluir.style.display = 'none';
+    btnExcluir.style.display =
+      'none';
 
   }else{
 
-    btnExcluir.style.display = 'block';
+    btnExcluir.style.display =
+      'block';
 
   }
 
@@ -33,6 +35,11 @@ function fecharModal(){
   getModal()
     .classList
     .add('hidden');
+
+  limparFormulario();
+
+  eventoEditando = null;
+
 }
 
 /* ============ LIMPAR ========== */
@@ -50,6 +57,8 @@ function limparFormulario(){
   document.getElementById('valor').value = '';
 
   document.getElementById('sinal').value = ' ';
+
+  document.getElementById('restante').value = '';
 
   document.getElementById('status').value = 'Pendente';
 
