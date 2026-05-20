@@ -1,4 +1,6 @@
+
 let eventosGlobais = [];
+
 let clientesGlobais = [];
 
 /* ============================================*/
@@ -9,14 +11,14 @@ async function carregarDashboard(){
 
   eventosGlobais = eventos;
 
+  clientesGlobais =
+    await api('listarClientes');
+
+  popularClientes();
+
   aplicarFiltros();
 
 }
-
-clientesGlobais =
-  await api('listarClientes');
-
-popularClientes();
 
 /* ============================================*/
 function aplicarFiltros(){
@@ -26,7 +28,7 @@ function aplicarFiltros(){
       document
         .getElementById('busca')
         .value
-    )
+    );
 
   const status =
     document
