@@ -1,5 +1,7 @@
 let eventosGlobais = [];
+let clientesGlobais = [];
 
+/* ============================================*/
 async function carregarDashboard(){
 
   const eventos =
@@ -11,6 +13,12 @@ async function carregarDashboard(){
 
 }
 
+clientesGlobais =
+  await api('listarClientes');
+
+popularClientes();
+
+/* ============================================*/
 function aplicarFiltros(){
 
   const busca =
@@ -127,6 +135,42 @@ btn.addEventListener('click', () => {
 
 });
 
+document
+  .getElementById('cliente')
+
+  .addEventListener('change', () => {
+
+    const nome =
+      document
+        .getElementById('cliente')
+        .value;
+
+    const cliente =
+      clientesGlobais.find(c => {
+
+        return (
+          String(c.NOME)
+            .toLowerCase()
+
+          ===
+
+          nome.toLowerCase()
+        );
+
+      });
+
+    if(cliente){
+
+      document
+        .getElementById('telefone')
+        .value =
+          cliente.TELEFONE || '';
+
+    }
+
+  });
+
+/* ============================================*/
   function normalizarTexto(texto){
 
   return texto
@@ -136,5 +180,29 @@ btn.addEventListener('click', () => {
     .replace(/[\u0300-\u036f]/g,'')
 
     .toLowerCase();
+
+}
+
+/* ============================================*/
+function popularClientes(){
+
+  const lista =
+    document.getElementById(
+      'listaClientes'
+    );
+
+  lista.innerHTML = '';
+
+  clientesGlobais.forEach(cliente => {
+
+    lista.innerHTML += `
+
+      <option
+        value="${cliente.NOME}">
+      </option>
+
+    `;
+
+  });
 
 }

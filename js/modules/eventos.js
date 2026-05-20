@@ -46,7 +46,26 @@ async function salvarEvento(){
 
   };
 
+  if(
+    !dados.data ||
+    !dados.cliente
+  ){
+
+  mostrarToast(
+    'Preencha os campos obrigatórios',
+    'erro'
+  );
+
+  return;
+}
+
   await post(dados);
+
+  mostrarToast(
+    eventoEditando
+      ? 'Evento atualizado'
+      : 'Evento salvo'
+  );
 
   eventoEditando = null;
 
@@ -103,6 +122,7 @@ async function editarEvento(id){
   abrirModal();
 }
 
+
 /* ============ EXCLUIR ========== */
 async function excluirEvento(id){
 
@@ -117,8 +137,14 @@ async function excluirEvento(id){
     id
   });
 
+  mostrarToast(
+    'Evento excluído',
+    'aviso'
+  );
+
   carregarDashboard();
 }
+
 
 /* ============ EXCLUIR ATUAL ========== */
 async function excluirEventoAtual(){
@@ -139,13 +165,18 @@ async function excluirEventoAtual(){
 
   });
 
+  mostrarToast(
+    'Evento excluído',
+    'aviso'
+  );
+
   eventoEditando = null;
 
   fecharModal();
 
   carregarDashboard();
-
 }
+
 
 /* ============ WHATSAPP ========== */
 function abrirWhatsapp(){
@@ -153,7 +184,14 @@ function abrirWhatsapp(){
   const telefone =
     document.getElementById('telefone').value;
 
-  if(!telefone) return;
+  if(!telefone){
+    mostrarToast(
+      'Cliente sem telefone',
+      'erro'
+    );
+
+    return;
+  }
 
   window.open(
     `https://wa.me/55${telefone}`,
