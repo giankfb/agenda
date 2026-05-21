@@ -1,12 +1,25 @@
-let calendar;
+let calendar = null;
 
+/* ============================================*/
 function renderizarCalendario(eventos){
 
   const calendarEl =
     document.getElementById('calendar');
 
-  calendarEl.innerHTML = '';
+  if(!calendarEl) return;
 
+  /* ==========================================
+     destrói calendário antigo
+  ========================================== */
+  if(calendar){
+
+    calendar.destroy();
+
+  }
+
+  /* ==========================================
+     cria calendário
+  ========================================== */
   calendar =
     new FullCalendar.Calendar(
       calendarEl,
@@ -18,23 +31,43 @@ function renderizarCalendario(eventos){
 
         height:'auto',
 
+        fixedWeekCount:false,
+
+        dayMaxEvents:true,
+
+        selectable:true,
+
+        headerToolbar:{
+
+          left:'prev,next today',
+
+          center:'title',
+
+          right:''
+        },
+
+        buttonText:{
+
+          today:'Hoje'
+        },
+
         events: eventos.map(evento => ({
 
           id:evento.ID,
 
           title:
-          `${evento.CLIENTE} • R$ ${evento.RESTANTE}`,
+            `${evento.CLIENTE} • R$ ${evento.RESTANTE}`,
 
           start:evento.DATA,
 
-        color:
-          evento.STATUS === 'Pago'
-            ? '#27ae60'
+          color:
+            evento.STATUS === 'Pago'
+              ? '#27ae60'
 
-            : evento.STATUS === 'Cancelado'
-            ? '#e74c3c'
+              : evento.STATUS === 'Cancelado'
+              ? '#e74c3c'
 
-            : '#f39c12',
+              : '#f39c12',
 
           extendedProps:{
             ...evento
@@ -42,6 +75,9 @@ function renderizarCalendario(eventos){
 
         })),
 
+        /* ======================================
+           clique no evento
+        ====================================== */
         eventClick:function(info){
 
           editarEvento(
@@ -50,7 +86,12 @@ function renderizarCalendario(eventos){
 
         },
 
+        /* ======================================
+           clique na data
+        ====================================== */
         dateClick:function(info){
+
+          limparFormulario();
 
           abrirModal();
 
@@ -64,4 +105,5 @@ function renderizarCalendario(eventos){
     );
 
   calendar.render();
+
 }

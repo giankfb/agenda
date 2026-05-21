@@ -1,26 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
-  <title>Agenda Fotografia</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2">
-  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
-  <link rel="manifest" href="manifest.json?v=2">
+<head>
+
+  <!-- ======================================
+     META
+  ======================================= -->
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="
+      width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no
+    "
+  >
+
+  <meta
+    name="theme-color"
+    content="#000000"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  >
+
+  <title>
+    Agenda Fotografia
+  </title>
+
+
+  <!-- ======================================
+     VERSIONAMENTO
+  ======================================= -->
+  <script>
+
+    const APP_VERSION =
+      '1.0.0';
+
+  </script>
+
+
+  <!-- ======================================
+     CSS
+  ======================================= -->
+  <link
+    id="style-css"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="
+      https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css
+    "
+  >
+
+  <link
+    id="manifest-link"
+    rel="manifest"
+  >
+
 </head>
+
 <body>
 
-  <!-- =========================================
-                  TOPO
-  ========================================== -->
-
+  <!-- ======================================
+     TOPO
+  ======================================= -->
   <header class="topbar">
 
     <div>
-      <h1>Agenda</h1>
-      <p>Controle de eventos</p>
+
+      <h1>
+        Agenda
+      </h1>
+
+      <p>
+        Controle de eventos
+      </p>
+
     </div>
 
     <button
@@ -32,16 +99,17 @@
 
   </header>
 
-  <!-- =========================================
-                FILTROS
-  ========================================== -->
 
+  <!-- ======================================
+     FILTROS
+  ======================================= -->
   <section class="filtros">
 
     <input
       type="text"
       id="busca"
       placeholder="Buscar cliente..."
+      autocomplete="off"
     >
 
     <select id="filtroStatus">
@@ -66,24 +134,30 @@
 
   </section>
 
-  <!-- =========================================
-                DASHBOARD
-  ========================================== -->
 
+  <!-- ======================================
+     MAIN
+  ======================================= -->
   <main>
 
+    <!-- DASHBOARD -->
     <div id="dashboard-cards"></div>
 
+    <!-- EVENTOS -->
     <div id="listaEventos"></div>
 
+    <!-- AÇÕES -->
     <div class="acoes-topo">
 
       <button id="toggleCalendario">
+
         Ver Calendário
+
       </button>
 
     </div>
 
+    <!-- CALENDÁRIO -->
     <div
       id="calendarContainer"
       class="hidden"
@@ -95,10 +169,10 @@
 
   </main>
 
-  <!-- =========================================
-                  MODAL
-  ========================================== -->
 
+  <!-- ======================================
+     MODAL
+  ======================================= -->
   <div
     id="modalEvento"
     class="modal hidden"
@@ -106,31 +180,56 @@
 
     <div class="modal-content">
 
-      <h2>Novo Evento</h2>
+      <h2>
+        Novo Evento
+      </h2>
 
-      <input type="date" id="data" placeholder="Data">
+      <!-- DATA -->
+      <input
+        type="date"
+        id="data"
+      >
 
+      <!-- TIPO -->
       <select id="tipo">
-        <option>Casamento</option>
-        <option>Aniversário</option>
-        <option>Ensaio</option>
-        <option>Formatura</option>
+
+        <option>
+          Casamento
+        </option>
+
+        <option>
+          Aniversário
+        </option>
+
+        <option>
+          Ensaio
+        </option>
+
+        <option>
+          Formatura
+        </option>
+
       </select>
 
+      <!-- CLIENTE -->
       <input
         type="text"
         id="cliente"
         placeholder="Cliente"
         list="listaClientes"
+        autocomplete="off"
       >
+
       <datalist id="listaClientes"></datalist>
 
+      <!-- TELEFONE -->
       <input
-        type="text"
+        type="tel"
         id="telefone"
         placeholder="Telefone"
       >
 
+      <!-- VALOR -->
       <input
         type="number"
         id="valor"
@@ -138,6 +237,7 @@
         oninput="calcularRestante()"
       >
 
+      <!-- SINAL -->
       <input
         type="number"
         id="sinal"
@@ -145,6 +245,7 @@
         oninput="calcularRestante()"
       >
 
+      <!-- RESTANTE -->
       <input
         type="number"
         id="restante"
@@ -152,23 +253,26 @@
         readonly
       >
 
+      <!-- LOCAL -->
       <input
         type="text"
         id="local"
         placeholder="Local do evento"
       >
 
+      <!-- HORÁRIO -->
       <input
         type="time"
         id="horario"
-        placeholder="Horário"
       >
 
+      <!-- OBS -->
       <textarea
         id="observacoes"
         placeholder="Observações"
       ></textarea>
 
+      <!-- STATUS -->
       <select id="status">
 
         <option value="Pendente">
@@ -185,63 +289,161 @@
 
       </select>
 
+
+      <!-- BOTÕES -->
       <button onclick="abrirWhatsapp()">
+
         WhatsApp
+
       </button>
 
       <button onclick="salvarEvento()">
+
         Salvar
+
       </button>
 
       <button
         id="btnExcluir"
         onclick="excluirEventoAtual()"
       >
+
         Excluir Evento
+
       </button>
 
       <button onclick="fecharModal()">
+
         Cancelar
+
       </button>
 
     </div>
 
   </div>
 
+
+  <!-- ======================================
+     TOAST
+  ======================================= -->
   <div id="toastContainer"></div>
 
-  <!-- =========================================
-                  SCRIPTS
-  ========================================== -->
 
-  <script src="js/api/api.js"></script>
+  <!-- ======================================
+     FULLCALENDAR
+  ======================================= -->
+  <script
+    src="
+      https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
+    "
+  ></script>
 
-  <script src="js/components/modal.js?v=2"></script>
 
-  <script src="js/components/calendar.js?v=2"></script>
-
-  <script src="js/components/cards.js?v=2"></script>
-
-  <script src="js/components/toast.js"></script>
-
-  <script src="js/modules/eventos.js?v=2"></script>
-
-  <script src="js/modules/dashboard.js?v=2"></script>
-
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-
+  <!-- ======================================
+     VERSIONAMENTO DINÂMICO
+  ======================================= -->
   <script>
 
-    carregarDashboard();
+    /* ====================================
+       CSS
+    ==================================== */
+    document
+      .getElementById('style-css')
+      .href =
+        `css/style.css?v=${APP_VERSION}`;
 
-    if('serviceWorker' in navigator){
+    /* ====================================
+       MANIFEST
+    ==================================== */
+    document
+      .getElementById('manifest-link')
+      .href =
+        `manifest.json?v=${APP_VERSION}`;
+
+    /* ====================================
+       SCRIPTS
+    ==================================== */
+    const scripts = [
+
+      'js/api/api.js',
+
+      'js/components/modal.js',
+
+      'js/components/calendar.js',
+
+      'js/components/cards.js',
+
+      'js/components/toast.js',
+
+      'js/modules/eventos.js',
+
+      'js/modules/dashboard.js'
+
+    ];
+
+    scripts.forEach(src => {
+
+      const script =
+        document.createElement('script');
+
+      script.src =
+        `${src}?v=${APP_VERSION}`;
+
+      document.body.appendChild(
+        script
+      );
+
+    });
+
+  </script>
+
+
+  <!-- ======================================
+     INIT
+  ======================================= -->
+  <script>
+
+    window.addEventListener(
+      'load',
+      async () => {
+
+        await carregarDashboard();
+
+      }
+    );
+
+  </script>
+
+
+  <!-- ======================================
+     PWA
+  ======================================= -->
+  <script>
+
+    if(
+      'serviceWorker'
+      in navigator
+    ){
 
       navigator.serviceWorker
-        .register('./sw.js')
+        .register(
+          `./sw.js?v=${APP_VERSION}`
+        )
 
         .then(() => {
 
-          console.log('PWA ativo');
+          console.log(
+            'PWA ativo'
+          );
+
+        })
+
+        .catch(error => {
+
+          console.error(
+            'Erro SW',
+            error
+          );
 
         });
 

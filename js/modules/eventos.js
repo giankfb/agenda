@@ -1,129 +1,247 @@
 let eventoEditando = null;
 
-/* ============ SALVAR ========== */
-async function salvarEvento(){
+let salvandoEvento = false;
 
-  const dados = {
 
-    action: eventoEditando
-      ? 'editarEvento'
-      : 'salvarEvento',
+/* ==========================================
+   HELPERS
+========================================== */
+function getCampo(id){
+
+  return document.getElementById(id);
+
+}
+
+
+/* ==========================================
+   DADOS FORM
+========================================== */
+function obterDadosFormulario(){
+
+  return {
+
+    action:
+      eventoEditando
+        ? 'editarEvento'
+        : 'salvarEvento',
 
     id:eventoEditando,
 
     data:
-      document.getElementById('data').value,
+      getCampo('data').value,
 
     tipo:
-      document.getElementById('tipo').value,
+      getCampo('tipo').value,
 
     cliente:
-      document.getElementById('cliente').value,
+      getCampo('cliente').value.trim(),
 
     telefone:
-      document.getElementById('telefone').value,
+      getCampo('telefone').value.trim(),
 
     valor:
-      document.getElementById('valor').value,
+      Number(
+        getCampo('valor').value
+      ) || 0,
 
     sinal:
-      document.getElementById('sinal').value,
+      Number(
+        getCampo('sinal').value
+      ) || 0,
 
     status:
-      document.getElementById('status').value,
+      getCampo('status').value,
 
     local:
-      document.getElementById('local').value,
+      getCampo('local').value.trim(),
 
     horario:
-      document.getElementById('horario').value,
+      getCampo('horario').value,
 
     observacoes:
-      document.getElementById('observacoes').value,
+      getCampo('observacoes')
+        .value
+        .trim(),
 
     restante:
-      document.getElementById('restante').value
+      Number(
+        getCampo('restante').value
+      ) || 0
 
   };
 
-  if(
-    !dados.data ||
-    !dados.cliente
-  ){
-
-  mostrarToast(
-    'Preencha os campos obrigatórios',
-    'erro'
-  );
-
-  return;
 }
 
-  await post(dados);
 
-  mostrarToast(
-    eventoEditando
-      ? 'Evento atualizado'
-      : 'Evento salvo'
-  );
+/* ==========================================
+   VALIDAR
+========================================== */
+function validarEvento(dados){
 
-  eventoEditando = null;
+  if(!dados.data){
 
-  fecharModal();
+    mostrarToast(
+      'Selecione uma data',
+      'erro'
+    );
 
-  carregarDashboard();
+    return false;
+  }
+
+  if(!dados.cliente){
+
+    mostrarToast(
+      'Informe o cliente',
+      'erro'
+    );
+
+    return false;
+  }
+
+  return true;
+
 }
 
-/* ============ EDITAR ========== */
+
+/* ==========================================
+   SALVAR
+========================================== */
+async function salvarEvento(){
+
+  if(salvandoEvento) return;
+
+  const dados =
+    obterDadosFormulario();
+
+  if(!validarEvento(dados)){
+
+    return;
+  }
+
+  try{
+
+    salvandoEvento = true;
+
+    await post(dados);
+
+    mostrarToast(
+
+      eventoEditando
+
+        ? 'Evento atualizado'
+
+        : 'Evento salvo'
+
+    );
+
+    eventoEditando = null;
+
+    fecharModal();
+
+    await carregarDashboard();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao salvar evento',
+      'erro'
+    );
+
+  }finally{
+
+    salvandoEvento = false;
+
+  }
+
+}
+
+
+/* ==========================================
+   EDITAR
+========================================== */
 async function editarEvento(id){
 
-  const eventos =
-    await api('listarEventos');
+  try{
 
-  const evento =
-    eventos.find(e => e.ID == id);
+    const evento =
 
-  eventoEditando = id;
+      eventosGlobais.find(e => {
 
-  document.getElementById('data').value =
-    evento.DATA.split('T')[0];
+        return String(e.ID)
+          === String(id);
 
-  document.getElementById('tipo').value =
-    evento.TIPO;
+      });
 
-  document.getElementById('cliente').value =
-    evento.CLIENTE;
+    if(!evento){
 
-  document.getElementById('telefone').value =
-    evento.TELEFONE;
+      mostrarToast(
+        'Evento não encontrado',
+        'erro'
+      );
 
-  document.getElementById('valor').value =
-    evento.VALOR;
+      return;
+    }
 
-  document.getElementById('sinal').value =
-    evento.SINAL;
+    eventoEditando = id;
 
-  document.getElementById('status').value =
-    evento.STATUS;  
+    getCampo('data').value =
+      evento.DATA
+        ?.split('T')[0]
+        || '';
 
-  document.getElementById('local').value =
-    evento.LOCAL || '';
+    getCampo('tipo').value =
+      evento.TIPO || '';
 
-  document.getElementById('horario').value =
-    evento.HORARIO || '';
+    getCampo('cliente').value =
+      evento.CLIENTE || '';
 
-  document.getElementById('observacoes').value =
-    evento.OBSERVACOES || ''; 
+    getCampo('telefone').value =
+      evento.TELEFONE || '';
 
-  document.getElementById('restante').value =
-    evento.RESTANTE;     
+    getCampo('valor').value =
+      evento.VALOR || '';
 
-  calcularRestante();
-  abrirModal();
+    getCampo('sinal').value =
+      evento.SINAL || '';
+
+    getCampo('status').value =
+      evento.STATUS || 'Pendente';
+
+    getCampo('local').value =
+      evento.LOCAL || '';
+
+    getCampo('horario').value =
+      evento.HORARIO || '';
+
+    getCampo('observacoes').value =
+      evento.OBSERVACOES || '';
+
+    getCampo('restante').value =
+      evento.RESTANTE || '';
+
+    calcularRestante();
+
+    abrirModal();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao abrir evento',
+      'erro'
+    );
+
+  }
+
 }
 
 
-/* ============ EXCLUIR ========== */
+/* ==========================================
+   EXCLUIR
+========================================== */
 async function excluirEvento(id){
 
   const confirmar = confirm(
@@ -132,62 +250,68 @@ async function excluirEvento(id){
 
   if(!confirmar) return;
 
-  await post({
-    action:'excluirEvento',
-    id
-  });
+  try{
 
-  mostrarToast(
-    'Evento excluído',
-    'aviso'
-  );
+    await post({
 
-  carregarDashboard();
+      action:'excluirEvento',
+
+      id
+
+    });
+
+    mostrarToast(
+      'Evento excluído',
+      'aviso'
+    );
+
+    await carregarDashboard();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao excluir evento',
+      'erro'
+    );
+
+  }
+
 }
 
 
-/* ============ EXCLUIR ATUAL ========== */
+/* ==========================================
+   EXCLUIR ATUAL
+========================================== */
 async function excluirEventoAtual(){
 
   if(!eventoEditando) return;
 
-  const confirmar = confirm(
-    'Deseja excluir este evento?'
-  );
-
-  if(!confirmar) return;
-
-  await post({
-
-    action:'excluirEvento',
-
-    id:eventoEditando
-
-  });
-
-  mostrarToast(
-    'Evento excluído',
-    'aviso'
+  await excluirEvento(
+    eventoEditando
   );
 
   eventoEditando = null;
 
   fecharModal();
 
-  carregarDashboard();
 }
 
 
-/* ============ WHATSAPP ========== */
+/* ==========================================
+   WHATSAPP
+========================================== */
 function abrirWhatsapp(){
 
   let telefone =
-    document
-      .getElementById('telefone')
-      .value;
 
-  telefone = telefone
-    .replace(/\D/g,'');
+    getCampo('telefone')
+      .value
+      .trim();
+
+  telefone =
+    telefone.replace(/\D/g,'');
 
   if(telefone.length < 10){
 
@@ -199,33 +323,42 @@ function abrirWhatsapp(){
     return;
   }
 
+  const url =
+    `https://wa.me/55${telefone}`;
+
   window.open(
-    `https://wa.me/55${telefone}`,
+    url,
     '_blank'
   );
 
 }
 
-/* ============ CALCULO ========== */
+
+/* ==========================================
+   CALCULAR RESTANTE
+========================================== */
 function calcularRestante(){
 
   const valor =
+
     Number(
-      document.getElementById('valor').value
+      getCampo('valor').value
     ) || 0;
 
   const sinal =
+
     Number(
-      document.getElementById('sinal').value
+      getCampo('sinal').value
     ) || 0;
 
-  const restante = valor - sinal;
+  const restante =
+    valor - sinal;
 
-  document.getElementById('restante').value =
+  getCampo('restante').value =
     restante;
 
   const status =
-    document.getElementById('status');
+    getCampo('status');
 
   if(restante <= 0){
 

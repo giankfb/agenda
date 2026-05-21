@@ -1,40 +1,120 @@
+/* ==========================================
+   MODAL
+========================================== */
 function getModal(){
-  return document.getElementById('modalEvento');
+
+  return document.getElementById(
+    'modalEvento'
+  );
+
 }
 
-/* ============ ABRIR ========== */
+
+/* ==========================================
+   ABRIR
+========================================== */
 function abrirModal(){
+
+  const modal =
+    getModal();
+
+  if(!modal) return;
 
   const btnExcluir =
     document.getElementById(
       'btnExcluir'
     );
 
+  const titulo =
+    document.querySelector(
+      '#modalEvento h2'
+    );
+
+  /* ======================================
+     modo novo evento
+  ====================================== */
   if(!eventoEditando){
 
     limparFormulario();
 
-    btnExcluir.style.display =
-      'none';
+    if(titulo){
 
-  }else{
+      titulo.innerText =
+        'Novo Evento';
 
-    btnExcluir.style.display =
-      'block';
+    }
+
+    if(btnExcluir){
+
+      btnExcluir.style.display =
+        'none';
+
+    }
 
   }
 
-  getModal()
-    .classList
-    .remove('hidden');
+  /* ======================================
+     modo edição
+  ====================================== */
+  else{
+
+    if(titulo){
+
+      titulo.innerText =
+        'Editar Evento';
+
+    }
+
+    if(btnExcluir){
+
+      btnExcluir.style.display =
+        'block';
+
+    }
+
+  }
+
+  /* ======================================
+     abre modal
+  ====================================== */
+  modal.classList.remove(
+    'hidden'
+  );
+
+  /* ======================================
+     foco no cliente
+  ====================================== */
+  setTimeout(() => {
+
+    const cliente =
+      document.getElementById(
+        'cliente'
+      );
+
+    if(cliente){
+
+      cliente.focus();
+
+    }
+
+  },100);
+
 }
 
-/* ============ FECHAR ========== */
+
+/* ==========================================
+   FECHAR
+========================================== */
 function fecharModal(){
 
-  getModal()
-    .classList
-    .add('hidden');
+  const modal =
+    getModal();
+
+  if(!modal) return;
+
+  modal.classList.add(
+    'hidden'
+  );
 
   limparFormulario();
 
@@ -42,30 +122,92 @@ function fecharModal(){
 
 }
 
-/* ============ LIMPAR ========== */
+
+/* ==========================================
+   LIMPAR FORMULÁRIO
+========================================== */
 function limparFormulario(){
 
-  document.getElementById('data').value = '';
+  const campos = {
 
-  document.getElementById('tipo').value =
-    'Casamento';
+    data:'',
 
-  document.getElementById('cliente').value = '';
+    tipo:'Casamento',
 
-  document.getElementById('telefone').value = '';
+    cliente:'',
 
-  document.getElementById('valor').value = '';
+    telefone:'',
 
-  document.getElementById('sinal').value = ' ';
+    valor:'',
 
-  document.getElementById('restante').value = '';
+    sinal:'',
 
-  document.getElementById('status').value = 'Pendente';
+    restante:'',
 
-  document.getElementById('local').value = '';
+    status:'Pendente',
 
-  document.getElementById('horario').value = '';
+    local:'',
 
-  document.getElementById('observacoes').value = '';
+    horario:'',
+
+    observacoes:''
+
+  };
+
+  Object.entries(campos)
+
+    .forEach(([id,valor]) => {
+
+      const campo =
+        document.getElementById(id);
+
+      if(campo){
+
+        campo.value = valor;
+
+      }
+
+    });
 
 }
+
+
+/* ==========================================
+   FECHAR AO CLICAR FORA
+========================================== */
+window.addEventListener(
+  'click',
+  function(e){
+
+    const modal =
+      getModal();
+
+    if(
+      e.target === modal
+    ){
+
+      fecharModal();
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   FECHAR NO ESC
+========================================== */
+window.addEventListener(
+  'keydown',
+  function(e){
+
+    if(
+      e.key === 'Escape'
+    ){
+
+      fecharModal();
+
+    }
+
+  }
+);

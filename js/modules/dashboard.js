@@ -1,61 +1,114 @@
-
 let eventosGlobais = [];
 
 let clientesGlobais = [];
 
-/* ============================================*/
-async function carregarDashboard(){
 
-  const eventos =
-    await api('listarEventos');
+/* ==========================================
+   HELPERS
+========================================== */
+function getElemento(id){
 
-  eventosGlobais = eventos;
-
-  clientesGlobais =
-    await api('listarClientes');
-
-  popularClientes();
-
-  aplicarFiltros();
+  return document.getElementById(id);
 
 }
 
-/* ============================================*/
+
+/* ==========================================
+   CARREGAR DASHBOARD
+========================================== */
+async function carregarDashboard(){
+
+  try{
+
+    const eventos =
+      await api('listarEventos');
+
+    eventosGlobais =
+      Array.isArray(eventos)
+        ? eventos
+        : [];
+
+    const clientes =
+      await api('listarClientes');
+
+    clientesGlobais =
+      Array.isArray(clientes)
+        ? clientes
+        : [];
+
+    popularClientes();
+
+    aplicarFiltros();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao carregar dashboard',
+      'erro'
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   FILTROS
+========================================== */
 function aplicarFiltros(){
 
   const busca =
+
     normalizarTexto(
-      document
-        .getElementById('busca')
-        .value
+
+      getElemento('busca')
+        ?.value || ''
+
     );
 
   const status =
-    document
-      .getElementById('filtroStatus')
-      .value;
 
+    getElemento('filtroStatus')
+      ?.value || 'Todos';
+
+  /* ======================================
+     filtrar
+  ====================================== */
   let filtrados =
+
     eventosGlobais.filter(evento => {
+
+      const cliente =
+
+        normalizarTexto(
+          evento.CLIENTE || ''
+        );
+
+      const telefone =
+
+        String(
+          evento.TELEFONE || ''
+        );
+
+      const tipo =
+
+        normalizarTexto(
+          evento.TIPO || ''
+        );
 
       const matchBusca =
 
-        normalizarTexto(
-          String(evento.CLIENTE || '')
-        )
-          
-          .includes(busca)
+        cliente.includes(busca)
 
         ||
 
-        String(evento.TELEFONE || '')
-          .includes(busca)
+        telefone.includes(busca)
 
         ||
 
-        String(evento.TIPO || '')
-          .toLowerCase()
-          .includes(busca);
+        tipo.includes(busca);
 
       const matchStatus =
 
@@ -72,126 +125,75 @@ function aplicarFiltros(){
 
     });
 
-    filtrados.sort((a,b) => {
+  /* ======================================
+     ordenar
+  ====================================== */
+  filtrados.sort((a,b) => {
 
-      return new Date(a.DATA)
-        - new Date(b.DATA);
-
-    });
-
-  renderizarCards(filtrados);
-
-  renderizarCalendario(filtrados);
-
-  renderizarLista(filtrados);
-
-}
-
-document
-  .getElementById('busca')
-  .addEventListener(
-    'input',
-    aplicarFiltros
-  );
-
-document
-  .getElementById('filtroStatus')
-  .addEventListener(
-    'change',
-    aplicarFiltros
-  );
-
-  const btn =
-  document.getElementById(
-    'toggleCalendario'
-  );
-
-btn.addEventListener('click', () => {
-
-  const container =
-    document.getElementById(
-      'calendarContainer'
+    return (
+      new Date(a.DATA)
+      -
+      new Date(b.DATA)
     );
-
-  const aberto =
-    container.classList.toggle(
-      'hidden'
-    );
-
-  btn.innerText =
-    aberto
-      ? 'Ver Calendário'
-      : 'Ocultar Calendário';
-
-  setTimeout(() => {
-
-    if(calendar){
-
-      calendar.render();
-
-      calendar.updateSize();
-
-    }
-
-  },200);
-
-});
-
-document
-  .getElementById('cliente')
-
-  .addEventListener('change', () => {
-
-    const nome =
-      document
-        .getElementById('cliente')
-        .value;
-
-    const cliente =
-      clientesGlobais.find(c => {
-
-        return (
-          String(c.NOME)
-            .toLowerCase()
-
-          ===
-
-          nome.toLowerCase()
-        );
-
-      });
-
-    if(cliente){
-
-      document
-        .getElementById('telefone')
-        .value =
-          cliente.TELEFONE || '';
-
-    }
 
   });
 
-/* ============================================*/
-  function normalizarTexto(texto){
+  /* ======================================
+     render
+  ====================================== */
+  renderizarCards(filtrados);
 
-  return texto
+  renderizarLista(filtrados);
+
+  const calendarioVisivel =
+
+    !getElemento(
+      'calendarContainer'
+    )
+      ?.classList
+      .contains('hidden');
+
+  if(calendarioVisivel){
+
+    renderizarCalendario(
+      filtrados
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   NORMALIZAR TEXTO
+========================================== */
+function normalizarTexto(texto){
+
+  return String(texto || '')
 
     .normalize('NFD')
 
-    .replace(/[\u0300-\u036f]/g,'')
+    .replace(
+      /[\u0300-\u036f]/g,
+      ''
+    )
 
     .toLowerCase();
 
 }
 
-/* ============================================*/
+
+/* ==========================================
+   POPULAR CLIENTES
+========================================== */
 function popularClientes(){
 
   const lista =
-    document.getElementById(
+    getElemento(
       'listaClientes'
     );
+
+  if(!lista) return;
 
   lista.innerHTML = '';
 
@@ -208,3 +210,149 @@ function popularClientes(){
   });
 
 }
+
+
+/* ==========================================
+   AUTO COMPLETAR TELEFONE
+========================================== */
+function preencherTelefoneCliente(){
+
+  const nome =
+
+    getElemento('cliente')
+      ?.value
+      ?.trim();
+
+  if(!nome) return;
+
+  const cliente =
+
+    clientesGlobais.find(c => {
+
+      return (
+
+        normalizarTexto(c.NOME)
+
+        ===
+
+        normalizarTexto(nome)
+
+      );
+
+    });
+
+  if(!cliente) return;
+
+  getElemento('telefone').value =
+
+    cliente.TELEFONE || '';
+
+}
+
+
+/* ==========================================
+   TOGGLE CALENDÁRIO
+========================================== */
+function toggleCalendario(){
+
+  const container =
+    getElemento(
+      'calendarContainer'
+    );
+
+  const btn =
+    getElemento(
+      'toggleCalendario'
+    );
+
+  if(!container || !btn){
+
+    return;
+  }
+
+  const oculto =
+
+    container.classList.toggle(
+      'hidden'
+    );
+
+  btn.innerText =
+
+    oculto
+
+      ? 'Ver Calendário'
+
+      : 'Ocultar Calendário';
+
+  /* ======================================
+     renderiza apenas quando abrir
+  ====================================== */
+  if(!oculto){
+
+    renderizarCalendario(
+      eventosGlobais
+    );
+
+    setTimeout(() => {
+
+      if(calendar){
+
+        calendar.updateSize();
+
+      }
+
+    },150);
+
+  }
+
+}
+
+
+/* ==========================================
+   EVENTOS
+========================================== */
+function iniciarEventosDashboard(){
+
+  /* ======================================
+     busca
+  ====================================== */
+  getElemento('busca')
+    ?.addEventListener(
+      'input',
+      aplicarFiltros
+    );
+
+  /* ======================================
+     status
+  ====================================== */
+  getElemento('filtroStatus')
+    ?.addEventListener(
+      'change',
+      aplicarFiltros
+    );
+
+  /* ======================================
+     toggle calendário
+  ====================================== */
+  getElemento('toggleCalendario')
+    ?.addEventListener(
+      'click',
+      toggleCalendario
+    );
+
+  /* ======================================
+     cliente
+  ====================================== */
+  getElemento('cliente')
+    ?.addEventListener(
+      'change',
+      preencherTelefoneCliente
+    );
+
+}
+
+
+/* ==========================================
+   INIT
+========================================== */
+iniciarEventosDashboard();
