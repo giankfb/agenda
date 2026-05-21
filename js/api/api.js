@@ -1,64 +1,36 @@
 const API_URL =
 'https://script.google.com/macros/s/AKfycbyHgCUE2j3izJsviAgl3S8RooK6VeQNF4weJYJO6OJQwENq1I6zBWOq-iMsFThaRO0/exec';
 
-/* ============================================*/
+
+/* =========================================
+                GET
+========================================= */
 async function api(action){
 
-  try{
-
-    const response =
-      await fetch(
-        `${API_URL}?action=${action}`
-      );
-
-    const texto =
-      await response.text();
-
-    return JSON.parse(texto);
-
-  }catch(erro){
-
-    console.error(erro);
-
-    mostrarToast(
-      'Erro na API',
-      'erro'
+  const response =
+    await fetch(
+      `${API_URL}?action=${action}`
     );
 
-    return [];
-
-  }
+  return await response.json();
 
 }
 
-/* ============================================*/
+
+/* =========================================
+                POST
+========================================= */
 async function post(dados){
 
-  try{
+  const response =
+    await fetch(API_URL, {
 
-    const response =
-      await fetch(API_URL,{
+      method:'POST',
 
-        method:'POST',
+      body:JSON.stringify(dados)
 
-        body:JSON.stringify(dados)
+    });
 
-      });
-
-    const texto =
-      await response.text();
-
-    return JSON.parse(texto);
-
-  }catch(erro){
-
-    console.error(erro);
-
-    mostrarToast(
-      'Erro ao salvar',
-      'erro'
-    );
-
-  }
+  return await response.json();
 
 }
