@@ -1,20 +1,30 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyEy6JA50kJnPIQawoWRa_UHpEiLiE5-BFtdpw5csQbONnye2uWHjK3DHndr87J9s1L/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxtsP7FsL5LtElUFo47uKBaX4gpr11su1tcNQ1djPlgV6-NENrFy77mvXV7NmeZnyQl/exec";
 
 async function api(action){
 
-  const response = await fetch(
-    `${API_URL}?action=${action}`
-  );
+  try{
 
-  return await response.json();
-}
+    const response =
+      await fetch(
+        `${API_URL}?action=${action}`
+      );
 
-async function post(dados){
+    const texto =
+      await response.text();
 
-  const response = await fetch(API_URL,{
-    method:'POST',
-    body:JSON.stringify(dados)
-  });
+    return JSON.parse(texto);
 
-  return await response.json();
+  }catch(erro){
+
+    console.error(erro);
+
+    mostrarToast(
+      'Erro na API',
+      'erro'
+    );
+
+    return [];
+
+  }
+
 }

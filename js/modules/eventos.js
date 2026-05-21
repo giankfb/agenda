@@ -181,12 +181,18 @@ async function excluirEventoAtual(){
 /* ============ WHATSAPP ========== */
 function abrirWhatsapp(){
 
-  const telefone =
-    document.getElementById('telefone').value;
+  let telefone =
+    document
+      .getElementById('telefone')
+      .value;
 
-  if(!telefone){
+  telefone = telefone
+    .replace(/\D/g,'');
+
+  if(telefone.length < 10){
+
     mostrarToast(
-      'Cliente sem telefone',
+      'Cliente sem telefone válido',
       'erro'
     );
 
@@ -197,6 +203,7 @@ function abrirWhatsapp(){
     `https://wa.me/55${telefone}`,
     '_blank'
   );
+
 }
 
 /* ============ CALCULO ========== */
