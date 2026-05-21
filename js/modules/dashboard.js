@@ -4,17 +4,6 @@ let clientesGlobais = [];
 
 let tiposEventoGlobais = [];
 
-
-/* ==========================================
-   HELPERS
-========================================== */
-function getElemento(id){
-
-  return document.getElementById(id);
-
-}
-
-
 /* ==========================================
    CARREGAR DASHBOARD
 ========================================== */
@@ -218,23 +207,7 @@ function aplicarFiltros(){
 }
 
 
-/* ==========================================
-   NORMALIZAR TEXTO
-========================================== */
-function normalizarTexto(texto){
 
-  return String(texto || '')
-
-    .normalize('NFD')
-
-    .replace(
-      /[\u0300-\u036f]/g,
-      ''
-    )
-
-    .toLowerCase();
-
-}
 
 
 /* ==========================================

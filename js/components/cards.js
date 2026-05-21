@@ -14,64 +14,6 @@ function escaparHtml(texto){
 
 
 /* ==========================================
-   FORMATAR MOEDA
-========================================== */
-function formatarMoeda(valor){
-
-  return Number(valor || 0)
-
-    .toLocaleString(
-
-      'pt-BR',
-
-      {
-
-        style:'currency',
-
-        currency:'BRL'
-
-      }
-
-    );
-
-}
-
-
-/* ==========================================
-   FORMATAR DATA
-========================================== */
-function formatarData(data){
-
-  if(!data){
-
-    return '-';
-
-  }
-
-  try{
-
-    const partes =
-      String(data).split('-');
-
-    if(partes.length === 3){
-
-      return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-    }
-
-    return new Date(data)
-      .toLocaleDateString('pt-BR');
-
-  }catch{
-
-    return data;
-
-  }
-
-}
-
-
-/* ==========================================
    ABRIR WHATSAPP
 ========================================== */
 function abrirWhatsappLista(telefone){

@@ -8,7 +8,7 @@ let salvandoEvento = false;
 ========================================== */
 function getCampo(id){
 
-  return document.getElementById(id);
+  return getElemento();
 
 }
 

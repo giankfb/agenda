@@ -1,12 +1,16 @@
 let clienteEditando = null;
 
-/* ========================================= */
+/* =========================================
+   RENDER CLIENTES
+========================================= */
 function renderizarClientes(){
 
   const container =
     document.getElementById(
       'listaClientesCards'
     );
+
+  if(!container) return;
 
   container.innerHTML = '';
 
@@ -51,7 +55,10 @@ function renderizarClientes(){
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   ABRIR MODAL
+========================================= */
 function abrirModalCliente(){
 
   clienteEditando = null;
@@ -74,7 +81,10 @@ function abrirModalCliente(){
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   FECHAR MODAL
+========================================= */
 function fecharModalCliente(){
 
   document
@@ -83,15 +93,28 @@ function fecharModalCliente(){
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   EDITAR CLIENTE
+========================================= */
 function editarCliente(nome){
 
   const cliente =
-    clientesGlobais.find(c =>
-      c.NOME === nome
+    clientesGlobais.find(c => {
+
+      return c.NOME === nome;
+
+    });
+
+  if(!cliente){
+
+    mostrarToast(
+      'Cliente não encontrado',
+      'erro'
     );
 
-  if(!cliente) return;
+    return;
+  }
 
   clienteEditando = nome;
 
@@ -113,7 +136,10 @@ function editarCliente(nome){
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   SALVAR CLIENTE
+========================================= */
 async function salvarCliente(){
 
   const nome =
@@ -128,6 +154,9 @@ async function salvarCliente(){
       .value
       .trim();
 
+  /* ======================================
+     validações
+  ====================================== */
   if(!nome){
 
     mostrarToast(
@@ -138,67 +167,162 @@ async function salvarCliente(){
     return;
   }
 
-  await post({
+  if(!telefone){
 
-    action:'salvarClienteManual',
+    mostrarToast(
+      'Informe o telefone',
+      'erro'
+    );
 
-    nome,
+    return;
+  }
 
-    telefone,
+  try{
 
-    antigo:clienteEditando
+    const resposta = await post({
 
-  });
+      action:'salvarClienteManual',
 
-  mostrarToast(
-    'Cliente salvo'
-  );
+      nome,
 
-  fecharModalCliente();
+      telefone,
 
-  document
-    .getElementById('cliente')
-    .value = nome;
+      antigo:clienteEditando
 
-  document
-    .getElementById('telefone')
-    .value = telefone;
+    });
 
-  carregarDashboard();
+    /* ====================================
+       erro backend
+    ==================================== */
+    if(!resposta.sucesso){
+
+      mostrarToast(
+        resposta.erro ||
+        'Erro ao salvar cliente',
+        'erro'
+      );
+
+      return;
+    }
+
+    /* ====================================
+       sucesso
+    ==================================== */
+    mostrarToast(
+      clienteEditando
+        ? 'Cliente atualizado'
+        : 'Cliente salvo'
+    );
+
+    fecharModalCliente();
+
+    /* ====================================
+       preenche modal evento
+    ==================================== */
+    const campoCliente =
+      document.getElementById(
+        'cliente'
+      );
+
+    const campoTelefone =
+      document.getElementById(
+        'telefone'
+      );
+
+    if(campoCliente){
+
+      campoCliente.value = nome;
+
+    }
+
+    if(campoTelefone){
+
+      campoTelefone.value = telefone;
+
+    }
+
+    await carregarDashboard();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao salvar cliente',
+      'erro'
+    );
+
+  }
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   EXCLUIR CLIENTE
+========================================= */
 async function excluirClienteAtual(){
 
-  if(!clienteEditando) return;
+  if(!clienteEditando){
+
+    return;
+  }
 
   const confirmar = confirm(
     'Excluir cliente?'
   );
 
-  if(!confirmar) return;
+  if(!confirmar){
 
-  await post({
+    return;
+  }
 
-    action:'excluirCliente',
+  try{
 
-    nome:clienteEditando
+    const resposta = await post({
 
-  });
+      action:'excluirCliente',
 
-  mostrarToast(
-    'Cliente excluído',
-    'aviso'
-  );
+      nome:clienteEditando
 
-  fecharModalCliente();
+    });
 
-  carregarDashboard();
+    if(!resposta.sucesso){
+
+      mostrarToast(
+        resposta.erro ||
+        'Erro ao excluir cliente',
+        'erro'
+      );
+
+      return;
+    }
+
+    mostrarToast(
+      'Cliente excluído',
+      'aviso'
+    );
+
+    fecharModalCliente();
+
+    await carregarDashboard();
+
+  }catch(error){
+
+    console.error(error);
+
+    mostrarToast(
+      'Erro ao excluir cliente',
+      'erro'
+    );
+
+  }
 
 }
 
-/* ========================================= */
+
+/* =========================================
+   NOVO CLIENTE RÁPIDO
+========================================= */
 function abrirNovoClienteRapido(){
 
   clienteEditando = null;
@@ -211,7 +335,9 @@ function abrirNovoClienteRapido(){
 
   document
     .getElementById('clienteTelefone')
-    .value = '';
+    .value = document
+      .getElementById('telefone')
+      .value || '';
 
   document
     .getElementById('btnExcluirCliente')
