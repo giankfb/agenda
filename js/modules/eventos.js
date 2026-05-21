@@ -14,6 +14,17 @@ function getCampo(id){
 
 
 /* ==========================================
+   NORMALIZAR TELEFONE
+========================================== */
+function limparTelefone(telefone){
+
+  return String(telefone || '')
+    .replace(/\D/g,'');
+
+}
+
+
+/* ==========================================
    DADOS FORM
 ========================================== */
 function obterDadosFormulario(){
@@ -34,10 +45,14 @@ function obterDadosFormulario(){
       getCampo('tipo').value,
 
     cliente:
-      getCampo('cliente').value.trim(),
+      getCampo('cliente')
+        .value
+        .trim(),
 
     telefone:
-      getCampo('telefone').value.trim(),
+      getCampo('telefone')
+        .value
+        .trim(),
 
     valor:
       Number(
@@ -53,7 +68,9 @@ function obterDadosFormulario(){
       getCampo('status').value,
 
     local:
-      getCampo('local').value.trim(),
+      getCampo('local')
+        .value
+        .trim(),
 
     horario:
       getCampo('horario').value,
@@ -78,6 +95,9 @@ function obterDadosFormulario(){
 ========================================== */
 function validarEvento(dados){
 
+  /* ======================================
+     DATA
+  ====================================== */
   if(!dados.data){
 
     mostrarToast(
@@ -88,10 +108,44 @@ function validarEvento(dados){
     return false;
   }
 
+  /* ======================================
+     CLIENTE
+  ====================================== */
   if(!dados.cliente){
 
     mostrarToast(
       'Informe o cliente',
+      'erro'
+    );
+
+    return false;
+  }
+
+  /* ======================================
+     TELEFONE
+  ====================================== */
+  if(!dados.telefone){
+
+    mostrarToast(
+      'Informe o telefone',
+      'erro'
+    );
+
+    return false;
+  }
+
+  /* ======================================
+     VALIDAR TELEFONE
+  ====================================== */
+  const telefoneLimpo =
+    limparTelefone(
+      dados.telefone
+    );
+
+  if(telefoneLimpo.length < 10){
+
+    mostrarToast(
+      'Telefone inválido',
       'erro'
     );
 
@@ -108,7 +162,10 @@ function validarEvento(dados){
 ========================================== */
 async function salvarEvento(){
 
-  if(salvandoEvento) return;
+  if(salvandoEvento){
+
+    return;
+  }
 
   const dados =
     obterDadosFormulario();
@@ -138,7 +195,15 @@ async function salvarEvento(){
 
     fecharModal();
 
+    /* ====================================
+       RECARREGAR DADOS
+    ==================================== */
     await carregarDashboard();
+
+    /* ====================================
+       ATUALIZAR TELEFONE
+    ==================================== */
+    preencherTelefoneCliente();
 
   }catch(error){
 
@@ -248,7 +313,10 @@ async function excluirEvento(id){
     'Deseja excluir este evento?'
   );
 
-  if(!confirmar) return;
+  if(!confirmar){
+
+    return;
+  }
 
   try{
 
@@ -286,7 +354,10 @@ async function excluirEvento(id){
 ========================================== */
 async function excluirEventoAtual(){
 
-  if(!eventoEditando) return;
+  if(!eventoEditando){
+
+    return;
+  }
 
   await excluirEvento(
     eventoEditando
@@ -311,7 +382,9 @@ function abrirWhatsapp(){
       .trim();
 
   telefone =
-    telefone.replace(/\D/g,'');
+    limparTelefone(
+      telefone
+    );
 
   if(telefone.length < 10){
 
