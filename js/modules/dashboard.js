@@ -2,6 +2,8 @@ let eventosGlobais = [];
 
 let clientesGlobais = [];
 
+let tiposEventoGlobais = [];
+
 
 /* ==========================================
    HELPERS
@@ -20,6 +22,9 @@ async function carregarDashboard(){
 
   try{
 
+    /* ======================================
+       EVENTOS
+    ====================================== */
     const eventos =
       await api('listarEventos');
 
@@ -28,6 +33,10 @@ async function carregarDashboard(){
         ? eventos
         : [];
 
+
+    /* ======================================
+       CLIENTES
+    ====================================== */
     const clientes =
       await api('listarClientes');
 
@@ -36,10 +45,40 @@ async function carregarDashboard(){
         ? clientes
         : [];
 
+
+    /* ======================================
+       TIPOS EVENTO
+    ====================================== */
+    try{
+
+      const tipos =
+        await api(
+          'listarTiposEvento'
+        );
+
+      tiposEventoGlobais =
+        Array.isArray(tipos)
+          ? tipos
+          : [];
+
+    }catch{
+
+      tiposEventoGlobais = [];
+
+    }
+
+
+    /* ======================================
+       POPULAR
+    ====================================== */
     popularClientes();
 
-    renderizarClientes();
+    popularTiposEvento();
 
+
+    /* ======================================
+       RENDER
+    ====================================== */
     aplicarFiltros();
 
   }catch(error){
@@ -75,8 +114,9 @@ function aplicarFiltros(){
     getElemento('filtroStatus')
       ?.value || 'Todos';
 
+
   /* ======================================
-     filtrar
+     FILTRAR
   ====================================== */
   let filtrados =
 
@@ -127,8 +167,9 @@ function aplicarFiltros(){
 
     });
 
+
   /* ======================================
-     ordenar
+     ORDENAR
   ====================================== */
   filtrados.sort((a,b) => {
 
@@ -140,19 +181,30 @@ function aplicarFiltros(){
 
   });
 
+
   /* ======================================
-     render
+     RENDER
   ====================================== */
   renderizarCards(filtrados);
 
   renderizarLista(filtrados);
 
+
+  /* ======================================
+     CALENDÁRIO
+  ====================================== */
+  const calendarioContainer =
+
+    getElemento(
+      'calendarContainer'
+    );
+
   const calendarioVisivel =
 
-    !getElemento(
-      'calendarContainer'
-    )
-      ?.classList
+    calendarioContainer &&
+
+    !calendarioContainer
+      .classList
       .contains('hidden');
 
   if(calendarioVisivel){
@@ -215,6 +267,55 @@ function popularClientes(){
 
 
 /* ==========================================
+   POPULAR TIPOS EVENTO
+========================================== */
+function popularTiposEvento(){
+
+  const select =
+    getElemento('tipo');
+
+  if(!select) return;
+
+  select.innerHTML = '';
+
+
+  /* ======================================
+     fallback padrão
+  ====================================== */
+  if(
+    !tiposEventoGlobais.length
+  ){
+
+    select.innerHTML = `
+
+      <option>Casamento</option>
+      <option>Aniversário</option>
+      <option>15 Anos</option>
+      <option>Ensaio</option>
+      <option>Formatura</option>
+
+    `;
+
+    return;
+  }
+
+
+  tiposEventoGlobais.forEach(tipo => {
+
+    select.innerHTML += `
+
+      <option>
+        ${tipo.NOME}
+      </option>
+
+    `;
+
+  });
+
+}
+
+
+/* ==========================================
    AUTO COMPLETAR TELEFONE
 ========================================== */
 function preencherTelefoneCliente(){
@@ -225,7 +326,12 @@ function preencherTelefoneCliente(){
       ?.value
       ?.trim();
 
-  if(!nome) return;
+  if(!nome){
+
+    getElemento('telefone').value = '';
+
+    return;
+  }
 
   const cliente =
 
@@ -243,7 +349,10 @@ function preencherTelefoneCliente(){
 
     });
 
-  if(!cliente) return;
+  if(!cliente){
+
+    return;
+  }
 
   getElemento('telefone').value =
 
@@ -286,6 +395,7 @@ function toggleCalendario(){
 
       : 'Ocultar Calendário';
 
+
   /* ======================================
      renderiza apenas quando abrir
   ====================================== */
@@ -314,6 +424,18 @@ function toggleCalendario(){
    EVENTOS
 ========================================== */
 function iniciarEventosDashboard(){
+
+  /* ======================================
+     evita duplicação
+  ====================================== */
+  if(window.dashboardEventosIniciados){
+
+    return;
+
+  }
+
+  window.dashboardEventosIniciados = true;
+
 
   /* ======================================
      busca

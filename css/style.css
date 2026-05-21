@@ -1,19 +1,73 @@
+:root{
+
+  --bg:#f5f5f5;
+
+  --card:#ffffff;
+
+  --text:#222;
+
+  --muted:#777;
+
+  --primary:#111;
+
+  --success:#27ae60;
+
+  --warning:#f39c12;
+
+  --danger:#e74c3c;
+
+  --radius:22px;
+
+  --radius-input:14px;
+
+  --shadow:
+    0 3px 10px rgba(0,0,0,0.05);
+
+}
+
+/* ==========================================
+   RESET
+========================================== */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
+
 /* ==========================================
    BODY
 ========================================== */
 body{
+
   font-family:Arial,sans-serif;
-  background:#f5f5f5;
-  color:#222;
+
+  background:var(--bg);
+
+  color:var(--text);
+
   padding:14px;
+
   min-height:100vh;
-  overflow-x:hidden;
+
+  overflow-x:clip;
+
+  -webkit-font-smoothing:antialiased;
+
+}
+
+
+/* ==========================================
+   TAP MOBILE
+========================================== */
+button,
+input,
+select,
+textarea{
+
+  -webkit-tap-highlight-color:
+    transparent;
+
 }
 
 
@@ -21,11 +75,27 @@ body{
    TOPO
 ========================================== */
 .topbar{
+
+  position:sticky;
+
+  top:0;
+
+  z-index:50;
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   margin-bottom:20px;
+
   gap:12px;
+
+  padding-bottom:10px;
+
+  background:var(--bg);
+
 }
 
 .topbar h1{
@@ -33,9 +103,13 @@ body{
 }
 
 .topbar p{
-  color:#777;
+
+  color:var(--muted);
+
   font-size:14px;
+
   margin-top:4px;
+
 }
 
 
@@ -43,25 +117,38 @@ body{
    FILTROS
 ========================================== */
 .filtros{
+
   display:flex;
+
   gap:12px;
+
   margin-bottom:20px;
+
   align-items:center;
+
 }
 
 .filtros input,
 .filtros select{
-  background:white;
+
+  background:var(--card);
+
   border:none;
+
   padding:14px 16px;
-  border-radius:16px;
+
+  border-radius:var(--radius-input);
+
   font-size:15px;
-  box-shadow:
-    0 3px 10px rgba(0,0,0,0.05);
+
+  box-shadow:var(--shadow);
 
   outline:none;
 
   transition:0.2s;
+
+  color:var(--text);
+
 }
 
 .filtros input{
@@ -70,8 +157,12 @@ body{
 
 .filtros input:focus,
 .filtros select:focus{
+
+  background:white;
+
   box-shadow:
     0 0 0 3px rgba(0,0,0,0.08);
+
 }
 
 
@@ -79,44 +170,68 @@ body{
    BOTÕES
 ========================================== */
 button{
+
   border:none;
-  background:#111;
+
+  background:var(--primary);
+
   color:white;
+
   padding:12px 16px;
-  border-radius:14px;
+
+  border-radius:var(--radius-input);
+
   cursor:pointer;
+
   font-size:14px;
+
   transition:0.2s;
+
 }
 
 button:active{
+
   transform:scale(0.97);
+
 }
 
 .btn-small{
+
   padding:8px 12px;
+
   font-size:12px;
+
   border-radius:10px;
+
 }
 
 #btnExcluir{
-  background:#e74c3c;
+
+  background:var(--danger);
+
 }
 
 #btnNovoEvento{
+
   width:58px;
+
   height:58px;
+
   border-radius:20px;
+
   font-size:30px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   padding:0;
 
   box-shadow:
     0 8px 20px rgba(0,0,0,0.15);
+
 }
 
 
@@ -124,6 +239,7 @@ button:active{
    DASHBOARD
 ========================================== */
 #dashboard-cards{
+
   display:grid;
 
   grid-template-columns:
@@ -132,21 +248,34 @@ button:active{
   gap:14px;
 
   margin-bottom:20px;
+
 }
 
 .card-dashboard{
-  background:white;
-  padding:20px;
-  border-radius:22px;
 
-  box-shadow:
-    0 3px 10px rgba(0,0,0,0.05);
+  background:var(--card);
+
+  padding:20px;
+
+  border-radius:var(--radius);
+
+  box-shadow:var(--shadow);
+
+  border:
+    1px solid rgba(0,0,0,0.03);
+
+  will-change:transform;
+
 }
 
 .card-dashboard h3{
+
   font-size:14px;
-  color:#777;
+
+  color:var(--muted);
+
   margin-bottom:10px;
+
 }
 
 .card-dashboard h2{
@@ -158,43 +287,64 @@ button:active{
    LISTA EVENTOS
 ========================================== */
 #listaEventos{
+
   display:flex;
+
   flex-direction:column;
+
   gap:14px;
+
 }
 
 .card-evento{
-  background:white;
+
+  background:var(--card);
 
   padding:18px;
 
-  border-radius:22px;
+  border-radius:var(--radius);
 
-  box-shadow:
-    0 3px 10px rgba(0,0,0,0.05);
+  box-shadow:var(--shadow);
+
+  border:
+    1px solid rgba(0,0,0,0.03);
 
   display:flex;
+
   flex-direction:column;
 
   gap:10px;
 
   transition:0.2s;
+
+  will-change:transform;
+
 }
 
 .card-evento:active{
+
   transform:scale(0.98);
+
 }
 
 .card-evento-topo{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
 }
 
 .card-acoes{
+
   display:flex;
+
   gap:8px;
+
   margin-top:8px;
+
 }
 
 
@@ -202,6 +352,7 @@ button:active{
    BADGES
 ========================================== */
 .badge{
+
   padding:6px 12px;
 
   border-radius:999px;
@@ -211,18 +362,25 @@ button:active{
   color:white;
 
   font-weight:bold;
+
 }
 
 .badge.pago{
-  background:#27ae60;
+
+  background:var(--success);
+
 }
 
 .badge.pendente{
-  background:#f39c12;
+
+  background:var(--warning);
+
 }
 
 .badge.cancelado{
-  background:#e74c3c;
+
+  background:var(--danger);
+
 }
 
 
@@ -230,6 +388,7 @@ button:active{
    MODAL
 ========================================== */
 .modal{
+
   position:fixed;
 
   inset:0;
@@ -240,17 +399,21 @@ button:active{
   display:flex;
 
   align-items:center;
+
   justify-content:center;
 
-  z-index:9999;
+  z-index:1000;
 
   padding:12px;
+
 }
 
 .modal-content{
-  background:white;
+
+  background:var(--card);
 
   width:100%;
+
   max-width:520px;
 
   border-radius:26px;
@@ -258,6 +421,7 @@ button:active{
   padding:24px;
 
   display:flex;
+
   flex-direction:column;
 
   gap:12px;
@@ -266,12 +430,19 @@ button:active{
 
   overflow-y:auto;
 
+  -webkit-overflow-scrolling:touch;
+
   box-shadow:
     0 10px 30px rgba(0,0,0,0.18);
+
+  will-change:transform;
+
 }
 
 .modal-content h2{
+
   margin-bottom:5px;
+
 }
 
 
@@ -290,18 +461,24 @@ button:active{
 
   padding:14px;
 
-  border-radius:14px;
+  border-radius:var(--radius-input);
 
   font-size:15px;
 
   outline:none;
 
   transition:0.2s;
+
+  color:var(--text);
+
 }
 
 .modal-content textarea{
+
   min-height:110px;
+
   resize:vertical;
+
 }
 
 .modal-content input:focus,
@@ -312,11 +489,47 @@ button:active{
 
   box-shadow:
     0 0 0 3px rgba(0,0,0,0.06);
+
 }
 
 input[readonly]{
+
   background:#ececec;
+
   font-weight:bold;
+
+}
+
+
+/* ==========================================
+   CAMPO COM AÇÃO
+========================================== */
+.campo-com-acao{
+
+  display:flex;
+
+  gap:10px;
+
+}
+
+.campo-com-acao input{
+
+  flex:1;
+
+}
+
+.btn-add-inline{
+
+  width:50px;
+
+  min-width:50px;
+
+  padding:0;
+
+  border-radius:14px;
+
+  font-size:22px;
+
 }
 
 
@@ -324,34 +537,58 @@ input[readonly]{
    CALENDÁRIO
 ========================================== */
 #calendar{
-  background:white;
+
+  background:var(--card);
 
   padding:18px;
 
-  border-radius:22px;
+  border-radius:var(--radius);
 
   margin-top:20px;
 
-  box-shadow:
-    0 3px 10px rgba(0,0,0,0.05);
+  box-shadow:var(--shadow);
+
+  border:
+    1px solid rgba(0,0,0,0.03);
+
 }
 
 .fc{
+
   position:relative;
+
   z-index:1;
+
+  width:100%;
+
+  overflow:hidden;
+
+}
+
+.fc-view-harness{
+
+  min-height:500px;
+
 }
 
 .fc .fc-toolbar{
+
   flex-direction:column;
+
   gap:10px;
+
 }
 
 .fc .fc-toolbar-title{
+
   font-size:20px;
+
 }
 
 .fc button{
+
   padding:8px 12px;
+
 }
 
 
@@ -359,124 +596,6 @@ input[readonly]{
    TOAST
 ========================================== */
 #toastContainer{
-  position:fixed;
-
-  top:20px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  z-index:99999;
-
-  display:flex;
-  flex-direction:column;
-
-  gap:10px;
-}
-
-.toast{
-  min-width:220px;
-  max-width:320px;
-
-  padding:14px 18px;
-
-  border-radius:18px;
-
-  color:white;
-
-  font-size:14px;
-
-  box-shadow:
-    0 10px 20px rgba(0,0,0,0.18);
-
-  animation:
-    toastEntrada 0.25s ease;
-}
-
-.toast.sucesso{
-  background:#27ae60;
-}
-
-.toast.erro{
-  background:#e74c3c;
-}
-
-.toast.aviso{
-  background:#f39c12;
-}
-
-@keyframes toastEntrada{
-
-  from{
-    opacity:0;
-
-    transform:
-      translateY(-10px)
-      scale(0.95);
-  }
-
-  to{
-    opacity:1;
-
-    transform:
-      translateY(0)
-      scale(1);
-  }
-}
-
-
-/* ==========================================
-   UTILITÁRIOS
-========================================== */
-.hidden{
-  display:none;
-}
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-@media(max-width:768px){
-
-  body{
-    padding:12px;
-  }
-
-  .topbar{
-    align-items:flex-start;
-  }
-
-  .filtros{
-    flex-direction:column;
-  }
-
-  .filtros input,
-  .filtros select{
-    width:100%;
-  }
-
-  .modal{
-    padding:0;
-  }
-
-  .modal-content{
-
-    border-radius:0;
-
-    max-width:none;
-
-    height:100vh;
-
-    max-height:none;
-  }
-
-}
-
-/* ==========================================
-   TOAST MODERNO
-========================================== */
-
-#toastContainer{
 
   position:fixed;
 
@@ -486,7 +605,7 @@ input[readonly]{
 
   transform:translateX(-50%);
 
-  z-index:99999;
+  z-index:2000;
 
   display:flex;
 
@@ -497,6 +616,7 @@ input[readonly]{
   width:max-content;
 
   max-width:90%;
+
 }
 
 .toast{
@@ -520,6 +640,7 @@ input[readonly]{
     toastEntrada 0.25s ease;
 
   backdrop-filter:blur(10px);
+
 }
 
 .toast-content{
@@ -529,6 +650,7 @@ input[readonly]{
   align-items:center;
 
   gap:10px;
+
 }
 
 .toast-icon{
@@ -536,34 +658,38 @@ input[readonly]{
   font-size:16px;
 
   font-weight:bold;
+
 }
 
 .toast.sucesso{
 
-  background:#27ae60;
+  background:var(--success);
+
 }
 
 .toast.erro{
 
-  background:#e74c3c;
+  background:var(--danger);
+
 }
 
 .toast.aviso{
 
-  background:#f39c12;
+  background:var(--warning);
+
 }
 
 .toast-saindo{
 
   animation:
     toastSaida 0.3s ease forwards;
+
 }
 
 
 /* ==========================================
-   animações
+   ANIMAÇÕES
 ========================================== */
-
 @keyframes toastEntrada{
 
   from{
@@ -573,6 +699,7 @@ input[readonly]{
     transform:
       translateY(-10px)
       scale(0.95);
+
   }
 
   to{
@@ -582,7 +709,9 @@ input[readonly]{
     transform:
       translateY(0)
       scale(1);
+
   }
+
 }
 
 @keyframes toastSaida{
@@ -594,42 +723,148 @@ input[readonly]{
     transform:
       translateY(-10px)
       scale(0.95);
+
   }
+
 }
 
-/* ========= CLIENTES ========= */
 
+/* ==========================================
+   CLIENTES
+========================================== */
 .clientes-box{
+
   margin-top:25px;
+
 }
 
 .clientes-topo{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   margin-bottom:15px;
+
 }
 
 #listaClientesCards{
+
   display:flex;
+
   flex-direction:column;
+
   gap:10px;
+
 }
 
 .card-cliente{
-  background:white;
+
+  background:var(--card);
+
   padding:16px;
+
   border-radius:18px;
-  box-shadow:
-    0 3px 10px rgba(0,0,0,0.06);
+
+  box-shadow:var(--shadow);
+
+  border:
+    1px solid rgba(0,0,0,0.03);
 
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
 }
 
 .card-cliente-info{
+
   display:flex;
+
   flex-direction:column;
+
   gap:4px;
+
+}
+
+
+/* ==========================================
+   UTILITÁRIOS
+========================================== */
+.hidden{
+
+  display:none;
+
+}
+
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+
+  background:
+    rgba(0,0,0,0.18);
+
+  border-radius:999px;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media(max-width:768px){
+
+  body{
+
+    padding:12px;
+
+  }
+
+  .topbar{
+
+    align-items:flex-start;
+
+  }
+
+  .filtros{
+
+    flex-direction:column;
+
+  }
+
+  .filtros input,
+  .filtros select{
+
+    width:100%;
+
+  }
+
+  .modal{
+
+    padding:0;
+
+  }
+
+  .modal-content{
+
+    border-radius:0;
+
+    max-width:none;
+
+    height:100vh;
+
+    max-height:none;
+
+  }
+
 }

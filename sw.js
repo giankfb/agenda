@@ -1,9 +1,8 @@
-const CACHE_NAME = 'agenda-v2';
+const CACHE_NAME = 'agenda-v3';
 
 const urlsToCache = [
 
   './',
-
   './index.html',
 
   './manifest.json',
@@ -13,48 +12,33 @@ const urlsToCache = [
   './js/api/api.js',
 
   './js/components/modal.js',
-
   './js/components/cards.js',
-
   './js/components/calendar.js',
+  './js/components/toast.js',
 
+  './js/modules/clientes.js',
   './js/modules/eventos.js',
-
   './js/modules/dashboard.js',
 
   './icons/icon-192.png',
-
   './icons/icon-512.png'
 
 ];
 
+
+/* =========================================
+    INSTALL
+========================================= */
 self.addEventListener('install', event => {
+
+  self.skipWaiting();
 
   event.waitUntil(
 
     caches.open(CACHE_NAME)
-
       .then(cache => {
 
-        return Promise.all(
-
-          urlsToCache.map(url => {
-
-            return cache.add(url)
-
-              .catch(err => {
-
-                console.error(
-                  'Erro cache:',
-                  url,
-                  err
-                );
-
-              });
-
-          })
-
-        );
+        return cache.addAll(urlsToCache);
 
       })
 
@@ -62,23 +46,10 @@ self.addEventListener('install', event => {
 
 });
 
-self.addEventListener('fetch', event => {
 
-  event.respondWith(
-
-    caches.match(event.request)
-
-      .then(response => {
-
-        return response ||
-          fetch(event.request);
-
-      })
-
-  );
-
-});
-
+/* =========================================
+    ACTIVATE
+========================================= */
 self.addEventListener('activate', event => {
 
   event.waitUntil(
@@ -100,6 +71,55 @@ self.addEventListener('activate', event => {
       );
 
     })
+
+  );
+
+  self.clients.claim();
+
+});
+
+
+/* =========================================
+    FETCH
+========================================= */
+self.addEventListener('fetch', event => {
+
+  if(
+    event.request.method !== 'GET'
+  ){
+    return;
+  }
+
+  event.respondWith(
+
+    fetch(event.request)
+
+      .then(response => {
+
+        const responseClone =
+          response.clone();
+
+        caches.open(CACHE_NAME)
+          .then(cache => {
+
+            cache.put(
+              event.request,
+              responseClone
+            );
+
+          });
+
+        return response;
+
+      })
+
+      .catch(() => {
+
+        return caches.match(
+          event.request
+        );
+
+      })
 
   );
 

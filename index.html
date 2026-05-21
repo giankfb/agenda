@@ -10,12 +10,7 @@
 
   <meta
     name="viewport"
-    content="
-      width=device-width,
-      initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no
-    "
+    content="width=device-width, initial-scale=1.0"
   >
 
   <meta
@@ -43,8 +38,7 @@
   ======================================= -->
   <script>
 
-    const APP_VERSION =
-      '1.1.0';
+    const APP_VERSION = '1.1.1';
 
   </script>
 
@@ -52,6 +46,7 @@
   <!-- ======================================
      CSS
   ======================================= -->
+
   <link
     id="style-css"
     rel="stylesheet"
@@ -59,9 +54,7 @@
 
   <link
     rel="stylesheet"
-    href="
-      https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css
-    "
+    href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
   >
 
   <link
@@ -140,41 +133,18 @@
   ======================================= -->
   <main>
 
-    <!-- DASHBOARD -->
     <div id="dashboard-cards"></div>
 
-    <!-- EVENTOS -->
     <div id="listaEventos"></div>
 
-    <!-- CLIENTES -->
-    <section class="clientes-box">
-
-      <div class="clientes-topo">
-
-        <h2>Clientes</h2>
-
-        <button onclick="abrirModalCliente()">
-          Novo Cliente
-        </button>
-
-      </div>
-
-      <div id="listaClientesCards"></div>
-
-    </section>
-
-    <!-- AÇÕES -->
     <div class="acoes-topo">
 
       <button id="toggleCalendario">
-
         Ver Calendário
-
       </button>
 
     </div>
 
-    <!-- CALENDÁRIO -->
     <div
       id="calendarContainer"
       class="hidden"
@@ -188,7 +158,7 @@
 
 
   <!-- ======================================
-     MODAL
+     MODAL EVENTO
   ======================================= -->
   <div
     id="modalEvento"
@@ -201,52 +171,41 @@
         Novo Evento
       </h2>
 
-      <!-- DATA -->
       <input
         type="date"
         id="data"
       >
 
-      <!-- TIPO -->
-      <select id="tipo">
-
-        <option>
-          Casamento
-        </option>
-
-        <option>
-          Aniversário
-        </option>
-
-        <option>
-          Ensaio
-        </option>
-
-        <option>
-          Formatura
-        </option>
-
-      </select>
+      <select id="tipo"></select>
 
       <!-- CLIENTE -->
-      <input
-        type="text"
-        id="cliente"
-        placeholder="Cliente"
-        list="listaClientes"
-        autocomplete="off"
-      >
+      <div class="campo-com-acao">
+
+        <input
+          type="text"
+          id="cliente"
+          placeholder="Cliente"
+          list="listaClientes"
+        >
+
+        <button
+          type="button"
+          class="btn-add-inline"
+          onclick="abrirNovoClienteRapido()"
+        >
+          +
+        </button>
+
+      </div>
 
       <datalist id="listaClientes"></datalist>
 
-      <!-- TELEFONE -->
       <input
         type="tel"
         id="telefone"
         placeholder="Telefone"
       >
 
-      <!-- VALOR -->
       <input
         type="number"
         id="valor"
@@ -254,7 +213,6 @@
         oninput="calcularRestante()"
       >
 
-      <!-- SINAL -->
       <input
         type="number"
         id="sinal"
@@ -262,7 +220,6 @@
         oninput="calcularRestante()"
       >
 
-      <!-- RESTANTE -->
       <input
         type="number"
         id="restante"
@@ -270,26 +227,22 @@
         readonly
       >
 
-      <!-- LOCAL -->
       <input
         type="text"
         id="local"
         placeholder="Local do evento"
       >
 
-      <!-- HORÁRIO -->
       <input
         type="time"
         id="horario"
       >
 
-      <!-- OBS -->
       <textarea
         id="observacoes"
         placeholder="Observações"
       ></textarea>
 
-      <!-- STATUS -->
       <select id="status">
 
         <option value="Pendente">
@@ -306,43 +259,33 @@
 
       </select>
 
-
-      <!-- BOTÕES -->
       <button onclick="abrirWhatsapp()">
-
         WhatsApp
-
       </button>
 
       <button onclick="salvarEvento()">
-
         Salvar
-
       </button>
 
       <button
         id="btnExcluir"
         onclick="excluirEventoAtual()"
       >
-
         Excluir Evento
-
       </button>
 
       <button onclick="fecharModal()">
-
         Cancelar
-
       </button>
 
     </div>
 
   </div>
 
-  <!-- =========================================
-              MODAL CLIENTE
-  ========================================== -->
 
+  <!-- ======================================
+     MODAL CLIENTE
+  ======================================= -->
   <div
     id="modalCliente"
     class="modal hidden"
@@ -350,7 +293,9 @@
 
     <div class="modal-content">
 
-      <h2>Cliente</h2>
+      <h2>
+        Cliente
+      </h2>
 
       <input
         type="text"
@@ -387,6 +332,7 @@
 
   </div>
 
+
   <!-- ======================================
      TOAST
   ======================================= -->
@@ -394,74 +340,48 @@
 
 
   <!-- ======================================
-     FULLCALENDAR
-  ======================================= -->
-  <script
-    src="
-      https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
-    "
-  ></script>
-
-
-  <!-- ======================================
-     VERSIONAMENTO DINÂMICO
+     CSS DINÂMICO
   ======================================= -->
   <script>
 
-    /* ====================================
-       CSS
-    ==================================== */
     document
       .getElementById('style-css')
       .href =
         `css/style.css?v=${APP_VERSION}`;
 
-    /* ====================================
-       MANIFEST
-    ==================================== */
     document
       .getElementById('manifest-link')
       .href =
         `manifest.json?v=${APP_VERSION}`;
 
-    /* ====================================
-       SCRIPTS
-    ==================================== */
-    const scripts = [
-
-      'js/api/api.js',
-
-      'js/components/modal.js',
-
-      'js/components/calendar.js',
-
-      'js/components/cards.js',
-
-      'js/components/toast.js',
-
-      'js/modules/clientes.js',
-
-      'js/modules/eventos.js',
-
-      'js/modules/dashboard.js'
-
-    ];
-
-    scripts.forEach(src => {
-
-      const script =
-        document.createElement('script');
-
-      script.src =
-        `${src}?v=${APP_VERSION}`;
-
-      document.body.appendChild(
-        script
-      );
-
-    });
-
   </script>
+
+
+  <!-- ======================================
+     FULLCALENDAR
+  ======================================= -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+
+  <!-- ======================================
+     SCRIPTS
+  ======================================= -->
+
+  <script src="js/api/api.js?v=1.1.1"></script>
+
+  <script src="js/components/modal.js?v=1.1.1"></script>
+
+  <script src="js/components/calendar.js?v=1.1.1"></script>
+
+  <script src="js/components/cards.js?v=1.1.1"></script>
+
+  <script src="js/components/toast.js?v=1.1.1"></script>
+
+  <script src="js/modules/clientes.js?v=1.1.1"></script>
+
+  <script src="js/modules/eventos.js?v=1.1.1"></script>
+
+  <script src="js/modules/dashboard.js?v=1.1.1"></script>
 
 
   <!-- ======================================
@@ -473,7 +393,15 @@
       'load',
       async () => {
 
-        await carregarDashboard();
+        try{
+
+          await carregarDashboard();
+
+        }catch(error){
+
+          console.error(error);
+
+        }
 
       }
     );
@@ -482,36 +410,48 @@
 
 
   <!-- ======================================
-     PWA
+     SERVICE WORKER
   ======================================= -->
   <script>
 
-    if(
-      'serviceWorker'
-      in navigator
-    ){
+    if('serviceWorker' in navigator){
 
-      navigator.serviceWorker
-        .register(
-          `./sw.js?v=${APP_VERSION}`
-        )
+      window.addEventListener(
+        'load',
+        async () => {
 
-        .then(() => {
+          try{
 
-          console.log(
-            'PWA ativo'
-          );
+            const registro =
+              await navigator
+                .serviceWorker
+                .register(
+                  `./sw.js?v=${APP_VERSION}`
+                );
 
-        })
+            console.log(
+              'PWA ativo'
+            );
 
-        .catch(error => {
+            if(registro.waiting){
 
-          console.error(
-            'Erro SW',
-            error
-          );
+              registro.waiting.postMessage({
+                action:'skipWaiting'
+              });
 
-        });
+            }
+
+          }catch(error){
+
+            console.error(
+              'Erro SW',
+              error
+            );
+
+          }
+
+        }
+      );
 
     }
 

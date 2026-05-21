@@ -1,28 +1,98 @@
 /* ==========================================
-   FORMATADORES
+   HELPERS
+========================================== */
+function escaparHtml(texto){
+
+  return String(texto || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+
+/* ==========================================
+   FORMATAR MOEDA
 ========================================== */
 function formatarMoeda(valor){
 
   return Number(valor || 0)
+
     .toLocaleString(
+
       'pt-BR',
+
       {
+
         style:'currency',
+
         currency:'BRL'
+
       }
+
     );
 
 }
+
 
 /* ==========================================
    FORMATAR DATA
 ========================================== */
 function formatarData(data){
 
-  if(!data) return '-';
+  if(!data){
 
-  return new Date(data)
-    .toLocaleDateString('pt-BR');
+    return '-';
+
+  }
+
+  try{
+
+    const partes =
+      String(data).split('-');
+
+    if(partes.length === 3){
+
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+    }
+
+    return new Date(data)
+      .toLocaleDateString('pt-BR');
+
+  }catch{
+
+    return data;
+
+  }
+
+}
+
+
+/* ==========================================
+   ABRIR WHATSAPP
+========================================== */
+function abrirWhatsappLista(telefone){
+
+  telefone = String(telefone || '')
+    .replace(/\D/g,'');
+
+  if(telefone.length < 10){
+
+    mostrarToast(
+      'Cliente sem telefone válido',
+      'erro'
+    );
+
+    return;
+  }
+
+  window.open(
+    `https://wa.me/55${telefone}`,
+    '_blank'
+  );
 
 }
 
@@ -33,13 +103,19 @@ function formatarData(data){
 function renderizarCards(eventos){
 
   const container =
+
     document.getElementById(
       'dashboard-cards'
     );
 
-  if(!container) return;
+  if(!container){
 
-  const hoje = new Date();
+    return;
+
+  }
+
+  const hoje =
+    new Date();
 
   const mesAtual =
     hoje.getMonth();
@@ -47,10 +123,12 @@ function renderizarCards(eventos){
   const anoAtual =
     hoje.getFullYear();
 
+
   /* ======================================
-     eventos do mês
+     EVENTOS DO MÊS
   ====================================== */
   const eventosMes =
+
     eventos.filter(evento => {
 
       const data =
@@ -70,69 +148,111 @@ function renderizarCards(eventos){
 
     });
 
+
   /* ======================================
-     cálculos
+     CÁLCULOS
   ====================================== */
   const faturamento =
+
     eventosMes.reduce(
 
-      (total, evento) =>
+      (total, evento) => {
 
-        total +
-        Number(evento.VALOR || 0),
+        return (
+
+          total +
+
+          Number(
+            evento.VALOR || 0
+          )
+
+        );
+
+      },
 
       0
+
     );
+
 
   const pendente =
+
     eventosMes.reduce(
 
-      (total, evento) =>
+      (total, evento) => {
 
-        total +
-        Number(evento.RESTANTE || 0),
+        return (
+
+          total +
+
+          Number(
+            evento.RESTANTE || 0
+          )
+
+        );
+
+      },
 
       0
+
     );
+
 
   const recebido =
     faturamento - pendente;
 
+
   /* ======================================
-     render
+     RENDER
   ====================================== */
   container.innerHTML = `
 
     <div class="card-dashboard">
-      <h3>Faturamento</h3>
+
+      <h3>
+        Faturamento
+      </h3>
 
       <h2>
         ${formatarMoeda(faturamento)}
       </h2>
+
     </div>
 
     <div class="card-dashboard">
-      <h3>Recebido</h3>
+
+      <h3>
+        Recebido
+      </h3>
 
       <h2>
         ${formatarMoeda(recebido)}
       </h2>
+
     </div>
 
     <div class="card-dashboard">
-      <h3>Pendente</h3>
+
+      <h3>
+        Pendente
+      </h3>
 
       <h2>
         ${formatarMoeda(pendente)}
       </h2>
+
     </div>
 
     <div class="card-dashboard">
-      <h3>Eventos</h3>
+
+      <h3>
+        Eventos
+      </h3>
 
       <h2>
         ${eventosMes.length}
       </h2>
+
     </div>
 
   `;
@@ -146,48 +266,65 @@ function renderizarCards(eventos){
 function renderizarLista(eventos){
 
   const container =
+
     document.getElementById(
       'listaEventos'
     );
 
-  if(!container) return;
+  if(!container){
 
-  container.innerHTML = '';
+    return;
+
+  }
+
 
   /* ======================================
-     vazio
+     VAZIO
   ====================================== */
-  if(eventos.length === 0){
+  if(!eventos.length){
 
     container.innerHTML = `
 
       <div class="card-evento">
 
-        <p>
+        <h3>
           Nenhum evento encontrado
-        </p>
+        </h3>
 
       </div>
 
     `;
 
     return;
+
   }
 
+
   /* ======================================
-     render
+     HTML
   ====================================== */
+  let html = '';
+
+
   eventos.forEach(evento => {
 
     const statusClass =
 
-      String(evento.STATUS || '')
-        .toLowerCase();
+      String(
+        evento.STATUS || ''
+      )
+
+      .toLowerCase();
+
 
     const telefone =
 
-      String(evento.TELEFONE || '')
-        .replace(/\D/g,'');
+      String(
+        evento.TELEFONE || ''
+      )
+
+      .replace(/\D/g,'');
+
 
     const whatsappBtn =
 
@@ -200,8 +337,9 @@ function renderizarLista(eventos){
             onclick="
               event.stopPropagation();
 
-              window.location.href =
-                'https://wa.me/55${telefone}'
+              abrirWhatsappLista(
+                '${telefone}'
+              );
             "
           >
             Whats
@@ -211,7 +349,8 @@ function renderizarLista(eventos){
 
         : '';
 
-    container.innerHTML += `
+
+    html += `
 
       <div
         class="card-evento"
@@ -221,30 +360,40 @@ function renderizarLista(eventos){
         <div class="card-evento-topo">
 
           <h3>
-            ${evento.CLIENTE || '-'}
+            ${escaparHtml(
+              evento.CLIENTE
+            )}
           </h3>
 
           <span
             class="badge ${statusClass}"
           >
-            ${evento.STATUS || '-'}
+            ${escaparHtml(
+              evento.STATUS
+            )}
           </span>
 
         </div>
 
         <p>
           📅
-          ${formatarData(evento.DATA)}
+          ${formatarData(
+            evento.DATA
+          )}
         </p>
 
         <p>
           💰
-          ${formatarMoeda(evento.RESTANTE)}
+          ${formatarMoeda(
+            evento.RESTANTE
+          )}
         </p>
 
         <p>
           📍
-          ${evento.LOCAL || '-'}
+          ${escaparHtml(
+            evento.LOCAL || '-'
+          )}
         </p>
 
         <div class="card-acoes">
@@ -254,7 +403,9 @@ function renderizarLista(eventos){
             onclick="
               event.stopPropagation();
 
-              editarEvento('${evento.ID}')
+              editarEvento(
+                '${evento.ID}'
+              );
             "
           >
             Editar
@@ -269,5 +420,8 @@ function renderizarLista(eventos){
     `;
 
   });
+
+
+  container.innerHTML = html;
 
 }

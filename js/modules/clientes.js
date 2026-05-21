@@ -156,6 +156,14 @@ async function salvarCliente(){
 
   fecharModalCliente();
 
+  document
+    .getElementById('cliente')
+    .value = nome;
+
+  document
+    .getElementById('telefone')
+    .value = telefone;
+
   carregarDashboard();
 
 }
@@ -187,5 +195,30 @@ async function excluirClienteAtual(){
   fecharModalCliente();
 
   carregarDashboard();
+
+}
+
+/* ========================================= */
+function abrirNovoClienteRapido(){
+
+  clienteEditando = null;
+
+  document
+    .getElementById('clienteNome')
+    .value = document
+      .getElementById('cliente')
+      .value;
+
+  document
+    .getElementById('clienteTelefone')
+    .value = '';
+
+  document
+    .getElementById('btnExcluirCliente')
+    .style.display = 'none';
+
+  document
+    .getElementById('modalCliente')
+    .classList.remove('hidden');
 
 }
