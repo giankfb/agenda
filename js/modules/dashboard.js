@@ -38,6 +38,8 @@ async function carregarDashboard(){
 
     popularClientes();
 
+    renderizarClientes();
+
     aplicarFiltros();
 
   }catch(error){

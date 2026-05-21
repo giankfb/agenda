@@ -596,3 +596,40 @@ input[readonly]{
       scale(0.95);
   }
 }
+
+/* ========= CLIENTES ========= */
+
+.clientes-box{
+  margin-top:25px;
+}
+
+.clientes-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+#listaClientesCards{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.card-cliente{
+  background:white;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:
+    0 3px 10px rgba(0,0,0,0.06);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card-cliente-info{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
