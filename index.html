@@ -197,20 +197,27 @@
         type="tel"
         id="telefone"
         placeholder="Telefone"
+        oninput="mascaraTelefone(this)"
       >
 
       <input
-        type="number"
+        type="text"
         id="valor"
         placeholder="Valor"
-        oninput="calcularRestante()"
+        oninput="
+          mascaraNumero(this);
+          calcularRestante();
+        "
       >
 
       <input
-        type="number"
+        type="text"
         id="sinal"
         placeholder="Sinal"
-        oninput="calcularRestante()"
+        oninput="
+          mascaraNumero(this);
+          calcularRestante();
+        "
       >
 
       <input
@@ -227,8 +234,11 @@
       >
 
       <input
-        type="time"
+        type="text"
         id="horario"
+        placeholder="00:00"
+        maxlength="5"
+        oninput="mascaraHorario(this)"
       >
 
       <textarea
@@ -371,6 +381,8 @@
   <script src="js/utils/format.js?v=1.1.1"></script>
 
   <script src="js/utils/validators.js?v=1.1.1"></script>
+
+  <script src="js/utils/masks.js?v=1.1.1"></script>
 
   <!-- COMPONENTS -->
   <script src="js/components/toast.js?v=1.1.1"></script>

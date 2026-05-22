@@ -82,6 +82,17 @@ function validarEvento(dados){
 
   }
 
+  if(!validarHorario(dados.horario)){
+
+    mostrarToast(
+      'Horário inválido',
+      'erro'
+    );
+
+    return false;
+
+  }
+
   if(
     !validarTelefone(
       dados.telefone
@@ -98,5 +109,15 @@ function validarEvento(dados){
   }
 
   return true;
+
+}
+
+/* ==========================================
+   VALIDAR HORÁRIO
+========================================== */
+function validarHorario(horario){
+
+  return /^([01]\d|2[0-3]):([0-5]\d)$/
+    .test(horario);
 
 }
