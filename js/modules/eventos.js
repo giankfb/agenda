@@ -14,17 +14,6 @@ function getCampo(id){
 
 
 /* ==========================================
-   NORMALIZAR TELEFONE
-========================================== */
-function limparTelefone(telefone){
-
-  return String(telefone || '')
-    .replace(/\D/g,'');
-
-}
-
-
-/* ==========================================
    DADOS FORM
 ========================================== */
 function obterDadosFormulario(){
@@ -153,6 +142,16 @@ function validarEvento(dados){
   }
 
   return true;
+
+}
+
+/* ==========================================
+   NORMALIZAR TELEFONE
+========================================== */
+function limparTelefone(telefone){
+
+  return String(telefone || '')
+    .replace(/\D/g,'');
 
 }
 
