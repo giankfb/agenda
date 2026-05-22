@@ -30,8 +30,48 @@ function formatarData(data){
 
   }
 
-  return new Date(data)
+  const dataFormatada =
+    new Date(data);
 
-    .toLocaleDateString('pt-BR');
+  if(
+    isNaN(dataFormatada)
+  ){
+
+    return '-';
+
+  }
+
+  return dataFormatada
+    .toLocaleDateString(
+      'pt-BR'
+    );
+
+}
+
+
+/* ==========================================
+   FORMATAR TELEFONE
+========================================== */
+function formatarTelefone(telefone){
+
+  telefone = String(
+    telefone || ''
+  ).replace(/\D/g,'');
+
+  if(
+    telefone.length === 11
+  ){
+
+    return telefone.replace(
+
+      /(\d{2})(\d{5})(\d{4})/,
+
+      '($1) $2-$3'
+
+    );
+
+  }
+
+  return telefone;
 
 }

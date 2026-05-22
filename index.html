@@ -34,16 +34,6 @@
 
 
   <!-- ======================================
-     VERSIONAMENTO
-  ======================================= -->
-  <script>
-
-    const APP_VERSION = '1.1.1';
-
-  </script>
-
-
-  <!-- ======================================
      CSS
   ======================================= -->
 
@@ -364,11 +354,14 @@
 
 
   <!-- ======================================
-     SCRIPTS
-  ======================================= -->
+               SCRIPTS
+  ====================================== -->
 
-   <!-- API -->
+  <!-- API -->
   <script src="js/api/api.js?v=1.1.1"></script>
+
+  <!-- CONFIG -->
+  <script src="config/config.js?v=1.1.1"></script>
 
   <!-- UTILS -->
   <script src="js/utils/helpers.js?v=1.1.1"></script>
@@ -378,13 +371,13 @@
   <script src="js/utils/validators.js?v=1.1.1"></script>
 
   <!-- COMPONENTS -->
-  <script src="js/components/modal.js?v=1.1.1"></script>
+  <script src="js/components/toast.js?v=1.1.1"></script>
 
-  <script src="js/components/calendar.js?v=1.1.1"></script>
+  <script src="js/components/modal.js?v=1.1.1"></script>
 
   <script src="js/components/cards.js?v=1.1.1"></script>
 
-  <script src="js/components/toast.js?v=1.1.1"></script>
+  <script src="js/components/calendar.js?v=1.1.1"></script>
 
   <!-- MODULES -->
   <script src="js/modules/clientes.js?v=1.1.1"></script>
@@ -395,8 +388,8 @@
 
 
   <!-- ======================================
-     INIT
-  ======================================= -->
+                INIT
+  ====================================== -->
   <script>
 
     window.addEventListener(
@@ -407,30 +400,10 @@
 
           await carregarDashboard();
 
-        }catch(error){
-
-          console.error(error);
-
-        }
-
-      }
-    );
-
-  </script>
-
-
-  <!-- ======================================
-     SERVICE WORKER
-  ======================================= -->
-  <script>
-
-    if('serviceWorker' in navigator){
-
-      window.addEventListener(
-        'load',
-        async () => {
-
-          try{
+          if(
+            'serviceWorker'
+            in navigator
+          ){
 
             const registro =
               await navigator
@@ -446,26 +419,25 @@
             if(registro.waiting){
 
               registro.waiting.postMessage({
+
                 action:'skipWaiting'
+
               });
 
             }
 
-          }catch(error){
-
-            console.error(
-              'Erro SW',
-              error
-            );
-
           }
 
+        }catch(error){
+
+          console.error(error);
+
         }
-      );
 
-    }
+      }
+    );
 
-  </script>
+  </script>  
 
 </body>
 </html>

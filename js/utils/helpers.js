@@ -3,7 +3,18 @@
 ========================================== */
 function getElemento(id){
 
-  return document.getElementById(id);
+  const elemento =
+    document.getElementById(id);
+
+  if(!elemento){
+
+    console.warn(
+      `Elemento não encontrado: ${id}`
+    );
+
+  }
+
+  return elemento;
 
 }
 

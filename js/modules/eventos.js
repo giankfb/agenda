@@ -8,7 +8,7 @@ let salvandoEvento = false;
 ========================================== */
 function getCampo(id){
 
-  return getElemento();
+  return getElemento(id);
 
 }
 
@@ -91,7 +91,7 @@ function obterDadosFormulario(){
 
 
 /* ==========================================
-   VALIDAR
+   VALIDAR EVENTO
 ========================================== */
 function validarEvento(dados){
 
@@ -199,11 +199,6 @@ async function salvarEvento(){
        RECARREGAR DADOS
     ==================================== */
     await carregarDashboard();
-
-    /* ====================================
-       ATUALIZAR TELEFONE
-    ==================================== */
-    preencherTelefoneCliente();
 
   }catch(error){
 
