@@ -3,7 +3,17 @@
 ========================================== */
 function formatarMoeda(valor){
 
-  return Number(valor || 0)
+  if(
+    valor === null
+    || valor === undefined
+    || valor === ''
+  ){
+
+    return 'R$ 0,00';
+
+  }
+
+  return Number(valor)
 
     .toLocaleString(
 
@@ -15,6 +25,33 @@ function formatarMoeda(valor){
       }
 
     );
+
+}
+
+/* ==========================================
+   MOEDA PARA NÚMERO
+========================================== */
+function moedaParaNumero(valor){
+
+  if(!valor){
+
+    return 0;
+
+  }
+
+  return Number(
+
+    String(valor)
+
+      .replace(/\s/g,'')
+
+      .replace('R$','')
+
+      .replace(/\./g,'')
+
+      .replace(',','.')
+
+  ) || 0;
 
 }
 
@@ -65,6 +102,20 @@ function formatarTelefone(telefone){
     return telefone.replace(
 
       /(\d{2})(\d{5})(\d{4})/,
+
+      '($1) $2-$3'
+
+    );
+
+  }
+
+  if(
+    telefone.length === 10
+  ){
+
+    return telefone.replace(
+
+      /(\d{2})(\d{4})(\d{4})/,
 
       '($1) $2-$3'
 

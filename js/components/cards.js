@@ -96,52 +96,71 @@ function renderizarCards(eventos){
   ====================================== */
   const faturamento =
 
-    eventosMes.reduce(
+  eventosMes.reduce(
 
-      (total, evento) => {
+    (total, evento) => {
 
-        return (
+      return (
 
-          total +
+        total +
 
-          Number(
-            evento.VALOR || 0
-          )
+        moedaParaNumero(
+          evento.VALOR
+        )
 
-        );
+      );
 
-      },
+    },
 
-      0
+    0
 
-    );
-
-
-  const pendente =
-
-    eventosMes.reduce(
-
-      (total, evento) => {
-
-        return (
-
-          total +
-
-          Number(
-            evento.RESTANTE || 0
-          )
-
-        );
-
-      },
-
-      0
-
-    );
+  );
 
 
-  const recebido =
-    faturamento - pendente;
+const pendente =
+
+  eventosMes.reduce(
+
+    (total, evento) => {
+
+      return (
+
+        total +
+
+        moedaParaNumero(
+          evento.RESTANTE
+        )
+
+      );
+
+    },
+
+    0
+
+  );
+
+
+const recebido =
+
+  eventosMes.reduce(
+
+    (total, evento) => {
+
+      return (
+
+        total +
+
+        moedaParaNumero(
+          evento.SINAL
+        )
+
+      );
+
+    },
+
+    0
+
+  );
 
 
   /* ======================================
@@ -149,55 +168,55 @@ function renderizarCards(eventos){
   ====================================== */
   container.innerHTML = `
 
-    <div class="card-dashboard">
+  <div class="card-dashboard resumo-financeiro">
 
-      <h3>
-        Faturamento
-      </h3>
+    <h3>
+      Total
+    </h3>
 
-      <h2>
-        ${formatarMoeda(faturamento)}
-      </h2>
+    <h2>
+      ${formatarMoeda(faturamento)}
+    </h2>
 
-    </div>
+  </div>
 
-    <div class="card-dashboard">
+  <div class="card-dashboard resumo-financeiro oculto-mobile">
 
-      <h3>
-        Recebido
-      </h3>
+    <h3>
+      Confirmado
+    </h3>
 
-      <h2>
-        ${formatarMoeda(recebido)}
-      </h2>
+    <h2>
+      ${formatarMoeda(recebido)}
+    </h2>
 
-    </div>
+  </div>
 
-    <div class="card-dashboard">
+  <div class="card-dashboard resumo-financeiro oculto-mobile">
 
-      <h3>
-        Pendente
-      </h3>
+    <h3>
+      Em aberto
+    </h3>
 
-      <h2>
-        ${formatarMoeda(pendente)}
-      </h2>
+    <h2>
+      ${formatarMoeda(pendente)}
+    </h2>
 
-    </div>
+  </div>
 
-    <div class="card-dashboard">
+  <div class="card-dashboard">
 
-      <h3>
-        Eventos
-      </h3>
+    <h3>
+      Eventos
+    </h3>
 
-      <h2>
-        ${eventosMes.length}
-      </h2>
+    <h2>
+      ${eventosMes.length}
+    </h2>
 
-    </div>
+  </div>
 
-  `;
+`;
 
 }
 
@@ -325,9 +344,9 @@ function renderizarLista(eventos){
         </p>
 
         <p>
-          💰
-          ${formatarMoeda(
-            evento.RESTANTE
+          📷
+          ${escaparHtml(
+            evento.TIPO || '-'
           )}
         </p>
 

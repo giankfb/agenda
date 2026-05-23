@@ -34,6 +34,11 @@ async function carregarDashboard(){
         ? clientes
         : [];
 
+    /* ======================================
+       AUTOCOMPLETE
+    ====================================== */
+    preencherListaClientes();
+
 
     /* ======================================
        TIPOS EVENTO
@@ -60,7 +65,7 @@ async function carregarDashboard(){
     /* ======================================
        POPULAR
     ====================================== */
-    popularClientes();
+   
 
     popularTiposEvento();
 
@@ -207,38 +212,6 @@ function aplicarFiltros(){
 }
 
 
-
-
-
-/* ==========================================
-   POPULAR CLIENTES
-========================================== */
-function popularClientes(){
-
-  const lista =
-    getElemento(
-      'listaClientes'
-    );
-
-  if(!lista) return;
-
-  lista.innerHTML = '';
-
-  clientesGlobais.forEach(cliente => {
-
-    lista.innerHTML += `
-
-      <option
-        value="${cliente.NOME}">
-      </option>
-
-    `;
-
-  });
-
-}
-
-
 /* ==========================================
    POPULAR TIPOS EVENTO
 ========================================== */
@@ -284,52 +257,6 @@ function popularTiposEvento(){
     `;
 
   });
-
-}
-
-
-/* ==========================================
-   AUTO COMPLETAR TELEFONE
-========================================== */
-function preencherTelefoneCliente(){
-
-  const nome =
-
-    getElemento('cliente')
-      ?.value
-      ?.trim();
-
-  if(!nome){
-
-    getElemento('telefone').value = '';
-
-    return;
-  }
-
-  const cliente =
-
-    clientesGlobais.find(c => {
-
-      return (
-
-        normalizarTexto(c.NOME)
-
-        ===
-
-        normalizarTexto(nome)
-
-      );
-
-    });
-
-  if(!cliente){
-
-    return;
-  }
-
-  getElemento('telefone').value =
-
-    cliente.TELEFONE || '';
 
 }
 

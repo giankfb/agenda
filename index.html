@@ -179,6 +179,7 @@
           id="cliente"
           placeholder="Cliente"
           list="listaClientes"
+          onchange="preencherTelefoneCliente()"
         >
 
         <button
@@ -203,9 +204,9 @@
       <input
         type="text"
         id="valor"
-        placeholder="Valor"
+        placeholder="0,00"
         oninput="
-          mascaraNumero(this);
+          mascaraMoeda(this);
           calcularRestante();
         "
       >
@@ -213,17 +214,17 @@
       <input
         type="text"
         id="sinal"
-        placeholder="Sinal"
+        placeholder="Sinal R$ 0,00"
         oninput="
-          mascaraNumero(this);
+          mascaraMoeda(this);
           calcularRestante();
         "
       >
 
       <input
-        type="number"
+        type="text"
         id="restante"
-        placeholder="Restante"
+        placeholder="R$0,00"        
         readonly
       >
 
@@ -310,6 +311,7 @@
         type="text"
         id="clienteTelefone"
         placeholder="Telefone"
+        oninput="mascaraTelefone(this)"
       >
 
       <div class="card-acoes">

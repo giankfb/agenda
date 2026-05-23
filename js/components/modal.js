@@ -132,7 +132,9 @@ function limparFormulario(){
 
     data:'',
 
-    tipo:'Casamento',
+    tipo:
+      tiposEventoGlobais[0]?.NOME ||
+       '',
 
     cliente:'',
 
@@ -142,7 +144,7 @@ function limparFormulario(){
 
     sinal:'',
 
-    restante:'',
+    restante:'R$ 0,00',
 
     status:'Pendente',
 

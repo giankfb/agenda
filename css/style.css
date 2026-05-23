@@ -868,3 +868,70 @@ input[readonly]{
   }
 
 }
+
+.card-evento,
+.card-dashboard,
+button{
+
+  transition:
+    transform .2s,
+    opacity .2s,
+    background .2s;
+
+}
+
+.modal-content{
+
+  animation:
+    modalEntrada .2s ease;
+
+}
+
+@keyframes modalEntrada{
+
+  from{
+
+    opacity:0;
+    transform:translateY(20px);
+
+  }
+
+  to{
+
+    opacity:1;
+    transform:translateY(0);
+
+  }
+
+}
+
+/* ==========================================
+   FINANCEIRO DISCRETO
+========================================== */
+.resumo-financeiro h2{
+
+  filter:blur(4px);
+
+  transition:0.2s;
+
+}
+
+.resumo-financeiro:hover h2{
+
+  filter:none;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media(max-width:768px){
+
+  .oculto-mobile{
+
+    display:none;
+
+  }
+
+}

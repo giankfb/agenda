@@ -44,14 +44,14 @@ function obterDadosFormulario(){
         .trim(),
 
     valor:
-      Number(
+      moedaParaNumero(
         getCampo('valor').value
-      ) || 0,
+      ),
 
     sinal:
-      Number(
+      moedaParaNumero(
         getCampo('sinal').value
-      ) || 0,
+      ),
 
     status:
       getCampo('status').value,
@@ -70,32 +70,13 @@ function obterDadosFormulario(){
         .trim(),
 
     restante:
-      Number(
+      moedaParaNumero(
         getCampo('restante').value
-      ) || 0
+      )
 
   };
 
 }
-
-
-/* ==========================================
-   VALIDAR EVENTO
-========================================== */
-function validarEvento(dados){
-
-  /* ======================================
-     DATA
-  ====================================== */
-  if(!dados.data){
-
-    mostrarToast(
-      'Selecione uma data',
-      'erro'
-    );
-
-    return false;
-  }
 
   /* ======================================
      CLIENTE
@@ -141,17 +122,30 @@ function validarEvento(dados){
     return false;
   }
 
+  /* ======================================
+     VALIDAR HORÁRIO
+  ====================================== */
+  if(
+
+    dados.horario
+    &&
+
+    !validarHorario(
+      dados.horario
+    )
+
+  ){
+
+    mostrarToast(
+      'Horário inválido',
+      'erro'
+    );
+
+    return false;
+
+  }
+
   return true;
-
-}
-
-/* ==========================================
-   NORMALIZAR TELEFONE
-========================================== */
-function limparTelefone(telefone){
-
-  return String(telefone || '')
-    .replace(/\D/g,'');
 
 }
 
@@ -192,11 +186,10 @@ async function salvarEvento(){
 
     eventoEditando = null;
 
+    limparFormularioEvento();
+
     fecharModal();
 
-    /* ====================================
-       RECARREGAR DADOS
-    ==================================== */
     await carregarDashboard();
 
   }catch(error){
@@ -260,10 +253,14 @@ async function editarEvento(id){
       evento.TELEFONE || '';
 
     getCampo('valor').value =
-      evento.VALOR || '';
+      formatarMoeda(
+        evento.VALOR || 0
+      );
 
     getCampo('sinal').value =
-      evento.SINAL || '';
+      formatarMoeda(
+        evento.SINAL || 0
+      );
 
     getCampo('status').value =
       evento.STATUS || 'Pendente';
@@ -278,9 +275,9 @@ async function editarEvento(id){
       evento.OBSERVACOES || '';
 
     getCampo('restante').value =
-      evento.RESTANTE || '';
-
-    calcularRestante();
+      formatarMoeda(
+        evento.RESTANTE || 0
+      );
 
     abrirModal();
 
@@ -408,21 +405,22 @@ function calcularRestante(){
 
   const valor =
 
-    Number(
+    moedaParaNumero(
       getCampo('valor').value
-    ) || 0;
+    );
 
   const sinal =
 
-    Number(
+    moedaParaNumero(
       getCampo('sinal').value
-    ) || 0;
+    );
 
   const restante =
     valor - sinal;
 
   getCampo('restante').value =
-    restante;
+
+    formatarMoeda(restante);
 
   const status =
     getCampo('status');
@@ -436,5 +434,34 @@ function calcularRestante(){
     status.value = 'Pendente';
 
   }
+
+}
+
+/* ==========================================
+        LIMPAR FORM
+========================================== */
+function limparFormularioEvento(){
+
+  getCampo('data').value = '';
+
+  getCampo('tipo').value = '';
+
+  getCampo('cliente').value = '';
+
+  getCampo('telefone').value = '';
+
+  getCampo('valor').value = '';
+
+  getCampo('sinal').value = '';
+
+  getCampo('restante').value = '';
+
+  getCampo('local').value = '';
+
+  getCampo('horario').value = '';
+
+  getCampo('observacoes').value = '';
+
+  getCampo('status').value = 'Pendente';
 
 }

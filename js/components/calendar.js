@@ -56,9 +56,10 @@ function renderizarCalendario(eventos){
           id:evento.ID,
 
           title:
-            `${evento.CLIENTE} • R$ ${evento.RESTANTE}`,
+            `${evento.CLIENTE} • ${formatarMoeda(evento.RESTANTE)}`,
 
-          start:evento.DATA,
+          start:
+            evento.DATA?.split('T')[0],
 
           color:
             evento.STATUS === 'Pago'

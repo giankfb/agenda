@@ -33,17 +33,31 @@ function mascaraTelefone(input){
 /* ==========================================
    MÁSCARA MOEDA
 ========================================== */
-function mascaraNumero(input){
+function mascaraMoeda(input){
 
-  input.value = input.value
-    .replace(',','.')
-    .replace(/[^\d.]/g,'');
+  let valor =
+
+    input.value.replace(/\D/g,'');
+
+  valor =
+    (Number(valor) / 100)
+      .toFixed(2);
+
+  valor = valor.replace('.',',');
+
+  valor = valor.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    '.'
+  );
+
+  input.value =
+    'R$ ' + valor;
 
 }
 
 
 /* ==========================================
-   MÁSCARA HORA
+   MÁSCARA HORÁRIO
 ========================================== */
 function mascaraHorario(input){
 

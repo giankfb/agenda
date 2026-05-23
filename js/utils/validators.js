@@ -48,6 +48,24 @@ function validarData(data){
 
 
 /* ==========================================
+   VALIDAR HORÁRIO
+========================================== */
+function validarHorario(horario){
+
+  if(!horario){
+
+    return true;
+  }
+
+  const regex =
+    /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+  return regex.test(horario);
+
+}
+
+
+/* ==========================================
    VALIDAR EVENTO
 ========================================== */
 function validarEvento(dados){
@@ -82,17 +100,6 @@ function validarEvento(dados){
 
   }
 
-  if(!validarHorario(dados.horario)){
-
-    mostrarToast(
-      'Horário inválido',
-      'erro'
-    );
-
-    return false;
-
-  }
-
   if(
     !validarTelefone(
       dados.telefone
@@ -108,16 +115,23 @@ function validarEvento(dados){
 
   }
 
+  if(
+    dados.horario
+    &&
+    !validarHorario(
+      dados.horario
+    )
+  ){
+
+    mostrarToast(
+      'Horário inválido',
+      'erro'
+    );
+
+    return false;
+
+  }
+
   return true;
-
-}
-
-/* ==========================================
-   VALIDAR HORÁRIO
-========================================== */
-function validarHorario(horario){
-
-  return /^([01]\d|2[0-3]):([0-5]\d)$/
-    .test(horario);
 
 }

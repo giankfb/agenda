@@ -1,4 +1,5 @@
-const CACHE_NAME = 'agenda-v3';
+const CACHE_NAME =
+  `agenda-${APP_VERSION}`;
 
 const urlsToCache = [
 
@@ -20,10 +21,17 @@ const urlsToCache = [
   './js/modules/eventos.js',
   './js/modules/dashboard.js',
 
+  './js/utils/helpers.js',
+  './js/utils/format.js',
+  './js/utils/validators.js',
+  './js/utils/masks.js',
+  './js/utils/config.js',
+
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png'  
 
 ];
+
 
 
 /* =========================================
@@ -102,10 +110,16 @@ self.addEventListener('fetch', event => {
         caches.open(CACHE_NAME)
           .then(cache => {
 
-            cache.put(
-              event.request,
-              responseClone
-            );
+            if(
+              event.request.url.startsWith(
+                self.location.origin
+              )
+            ){
+              cache.put(
+                event.request,
+                responseClone
+              );
+            }
 
           });
 

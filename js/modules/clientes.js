@@ -237,7 +237,10 @@ async function salvarCliente(){
 
     if(campoTelefone){
 
-      campoTelefone.value = telefone;
+      campoTelefone.value =
+      formatarTelefone(
+        telefone
+      );
 
     }
 
@@ -346,5 +349,68 @@ function abrirNovoClienteRapido(){
   document
     .getElementById('modalCliente')
     .classList.remove('hidden');
+
+}
+
+/* =========================================
+   PREENCHER TELEFONE CLIENTE
+========================================= */
+function preencherTelefoneCliente(){
+
+  const nome =
+
+    normalizarTexto(
+      getElemento('cliente').value
+    );
+
+  const cliente =
+
+    clientesGlobais.find(c => {
+
+      return normalizarTexto(c.NOME)
+        === nome;
+
+    });
+
+  if(!cliente){
+
+    return;
+  }
+
+  getElemento('telefone').value =
+
+    formatarTelefone(
+    cliente.TELEFONE || ''
+  );
+
+}
+
+
+/* =========================================
+   AUTOCOMPLETE CLIENTES
+========================================= */
+function preencherListaClientes(){
+
+  const datalist =
+    getElemento('listaClientes');
+
+  if(!datalist){
+
+    return;
+  }
+
+  datalist.innerHTML = '';
+
+  clientesGlobais.forEach(cliente => {
+
+    datalist.innerHTML += `
+
+      <option
+        value="${cliente.NOME}"
+      ></option>
+
+    `;
+
+  });
 
 }
