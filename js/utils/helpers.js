@@ -35,3 +35,14 @@ function normalizarTexto(texto){
     .trim();
 
 }
+
+/* ==========================================
+   LIMPAR TELEFONE
+========================================== */
+function limparTelefone(telefone){
+
+  return String(
+    telefone || ''
+  ).replace(/\D/g,'');
+
+}
