@@ -26,7 +26,7 @@ function obterDadosFormulario(){
         : 'salvarEvento',
 
     id:eventoEditando,
-
+    
     data:
       getCampo('data').value,
 
@@ -77,6 +77,24 @@ function obterDadosFormulario(){
   };
 
 }
+
+ /* ==========================================
+   VALIDAR EVENTO
+========================================== */
+function validarEvento(dados){
+
+  /* ======================================
+     DATA
+  ====================================== */
+  if(!dados.data){
+
+    mostrarToast(
+      'Selecione uma data',
+      'erro'
+    );
+
+    return false;
+  }
 
   /* ======================================
      CLIENTE
@@ -148,7 +166,6 @@ function obterDadosFormulario(){
   return true;
 
 }
-
 
 /* ==========================================
    SALVAR
