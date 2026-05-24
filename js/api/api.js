@@ -26,16 +26,20 @@ async function api(action){
 ========================================= */
 async function post(dados){
 
+  const formData =
+    new URLSearchParams();
+
+  formData.append(
+    'dados',
+    JSON.stringify(dados)
+  );
+
   const response =
-    await fetch(API_URL,{
+    await fetch(API_URL, {
 
       method:'POST',
 
-      headers:{
-        'Content-Type':'application/json'
-      },
-
-      body:JSON.stringify(dados)
+      body:formData
 
     });
 
