@@ -27,26 +27,17 @@ async function api(action){
 async function post(dados){
 
   const response =
-    await fetch(API_URL, {
+    await fetch(API_URL,{
 
       method:'POST',
 
       headers:{
-        'Content-Type':
-          'application/json'
+        'Content-Type':'application/json'
       },
 
       body:JSON.stringify(dados)
 
     });
-
-  if(!response.ok){
-
-    throw new Error(
-      'Erro na API'
-    );
-
-  }
 
   return await response.json();
 
