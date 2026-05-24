@@ -188,17 +188,19 @@ async function salvarFinanceiro(){
 
     valor:
       moedaParaNumero(
-
         document.getElementById(
           'finValor'
         ).value
-
       ),
 
     status:
       document.getElementById(
         'finStatus'
       ).value,
+
+    origem:'Caixa',
+
+    idOrigem:'',  
 
     observacoes:
       document.getElementById(
