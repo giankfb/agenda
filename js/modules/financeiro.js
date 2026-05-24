@@ -152,6 +152,7 @@ async function salvarFinanceiro(){
   const dados = {
 
     action:
+
       financeiroEditando
 
         ? 'editarFinanceiro'
@@ -170,6 +171,11 @@ async function salvarFinanceiro(){
         'finTipo'
       ).value,
 
+    categoria:
+      document.getElementById(
+        'finCategoria'
+      ).value,
+
     descricao:
       document.getElementById(
         'finDescricao'
@@ -182,20 +188,17 @@ async function salvarFinanceiro(){
 
     valor:
       moedaParaNumero(
+
         document.getElementById(
           'finValor'
         ).value
-      ),
 
-    categoria:
-      document.getElementById(
-        'finCategoria'
-      ).value,
+      ),
 
     status:
       document.getElementById(
         'finStatus'
-      ).value,  
+      ).value,
 
     observacoes:
       document.getElementById(
