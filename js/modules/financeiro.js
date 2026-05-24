@@ -187,6 +187,16 @@ async function salvarFinanceiro(){
         ).value
       ),
 
+    categoria:
+      document.getElementById(
+        'finCategoria'
+      ).value,
+
+    status:
+      document.getElementById(
+        'finStatus'
+      ).value,  
+
     observacoes:
       document.getElementById(
         'finObservacoes'
