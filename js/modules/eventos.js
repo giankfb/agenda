@@ -256,9 +256,8 @@ async function editarEvento(id){
     eventoEditando = id;
 
     getCampo('data').value =
-      evento.DATA
-        ?.split('T')[0]
-        || '';
+      String(evento.DATA || '')
+        .split('T')[0];
 
     getCampo('tipo').value =
       evento.TIPO || '';

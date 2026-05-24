@@ -67,21 +67,19 @@ function formatarData(data){
 
   }
 
-  const dataFormatada =
-    new Date(data);
+  const partes =
 
-  if(
-    isNaN(dataFormatada)
-  ){
+    String(data)
+      .split('T')[0]
+      .split('-');
+
+  if(partes.length !== 3){
 
     return '-';
 
   }
 
-  return dataFormatada
-    .toLocaleDateString(
-      'pt-BR'
-    );
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
