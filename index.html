@@ -286,6 +286,112 @@
 
   </div>
 
+  <!-- ======================================
+       FINANCEIRO
+  ====================================== -->
+  <section class="financeiro-box">
+
+    <div class="clientes-topo">
+
+      <div>
+        <h2>
+          Financeiro
+        </h2>
+
+        <p>
+          Controle de entradas e saídas
+        </p>
+      </div>
+
+      <button onclick="abrirModalFinanceiro()">
+        +
+      </button>
+
+    </div>
+
+    <div id="dashboardFinanceiro">
+
+    </div>
+
+    <div id="listaFinanceiro">
+
+    </div>
+
+  </section>
+
+  <!-- ======================================
+       MODAL FINANCEIRO
+  ====================================== -->
+  <div
+    id="modalFinanceiro"
+    class="modal hidden"
+  >
+
+    <div class="modal-content">
+
+      <h2>
+        Lançamento Financeiro
+      </h2>
+
+      <input
+        type="date"
+        id="finData"
+      >
+
+      <select id="finTipo">
+
+        <option value="Entrada">
+          Entrada
+        </option>
+
+        <option value="Saida">
+          Saída
+        </option>
+
+      </select>
+
+      <input
+        type="text"
+        id="finDescricao"
+        placeholder="Descrição"
+      >
+
+      <input
+        type="text"
+        id="finCliente"
+        placeholder="Cliente"
+      >
+
+      <input
+        type="text"
+        id="finValor"
+        placeholder="Valor"
+        oninput="mascaraMoeda(this)"
+      >
+
+      <textarea
+        id="finObservacoes"
+        placeholder="Observações"
+      ></textarea>
+
+      <button onclick="salvarFinanceiro()">
+        Salvar
+      </button>
+
+      <button
+        id="btnExcluirFinanceiro"
+        onclick="excluirFinanceiroAtual()"
+      >
+        Excluir
+      </button>
+
+      <button onclick="fecharModalFinanceiro()">
+        Fechar
+      </button>
+
+    </div>
+
+  </div>
 
   <!-- ======================================
      MODAL CLIENTE
@@ -402,6 +508,8 @@
 
   <script src="js/modules/dashboard.js?v=1.1.1"></script>
 
+  <script src="js/modules/financeiro.js?v=1.1.1"></script>
+
 
   <!-- ======================================
                 INIT
@@ -415,6 +523,7 @@
         try{
 
           await carregarDashboard();
+          carregarFinanceiro();
 
           if(
             'serviceWorker'
