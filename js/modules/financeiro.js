@@ -68,6 +68,10 @@ async function carregarFinanceiro(){
       financeiroGlobal
     );
 
+    renderizarDashboardFinanceiro(
+      financeiroGlobal
+    );
+
   }catch(error){
 
     console.error(error);
@@ -76,6 +80,177 @@ async function carregarFinanceiro(){
 
 }
 
+/* ==========================================
+   DASHBOARD FINANCEIRO
+========================================== */
+function renderizarDashboardFinanceiro(lista){
+
+  const container =
+
+    document.getElementById(
+      'dashboardFinanceiro'
+    );
+
+  if(!container){
+
+    return;
+  }
+
+  const hoje =
+    new Date();
+
+  const mesAtual =
+    hoje.getMonth();
+
+  const anoAtual =
+    hoje.getFullYear();
+
+  const listaMes =
+
+    lista.filter(item => {
+
+      const data =
+        new Date(item.DATA);
+
+      return (
+
+        data.getMonth()
+          === mesAtual
+
+        &&
+
+        data.getFullYear()
+          === anoAtual
+
+      );
+
+    });
+
+  /* ======================================
+     ENTRADAS
+  ====================================== */
+  const entradas =
+
+    listaMes
+
+      .filter(item => {
+
+        return item.TIPO
+          === 'Entrada';
+
+      })
+
+      .reduce((total,item) => {
+
+        return (
+
+          total +
+
+          moedaParaNumero(
+            item.VALOR
+          )
+
+        );
+
+      },0);
+
+  /* ======================================
+     SAÍDAS
+  ====================================== */
+  const saidas =
+
+    listaMes
+
+      .filter(item => {
+
+        return item.TIPO
+          === 'Saida';
+
+      })
+
+      .reduce((total,item) => {
+
+        return (
+
+          total +
+
+          moedaParaNumero(
+            item.VALOR
+          )
+
+        );
+
+      },0);
+
+  /* ======================================
+     LUCRO
+  ====================================== */
+  const lucro =
+    entradas - saidas;
+
+  container.innerHTML = `
+
+    <div id="dashboard-cards">
+
+      <div class="card-dashboard">
+
+        <h3>
+          Entradas
+        </h3>
+
+        <h2>
+          ${formatarMoeda(
+            entradas
+          )}
+        </h2>
+
+      </div>
+
+      <div class="card-dashboard">
+
+        <h3>
+          Saídas
+        </h3>
+
+        <h2>
+          ${formatarMoeda(
+            saidas
+          )}
+        </h2>
+
+      </div>
+
+      <div class="card-dashboard">
+
+        <h3>
+          Lucro
+        </h3>
+
+        <h2>
+          ${formatarMoeda(
+            lucro
+          )}
+        </h2>
+
+      </div>
+
+      <div class="card-dashboard">
+
+        <h3>
+          Lançamentos
+        </h3>
+
+        <h2>
+          ${listaMes.length}
+        </h2>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
 
 /* ==========================================
    RENDER
@@ -185,6 +360,11 @@ async function salvarFinanceiro(){
       document.getElementById(
         'finCliente'
       ).value,
+
+    telefone:
+      document.getElementById(
+        'finTelefone'
+      ).value,  
 
     valor:
       moedaParaNumero(
