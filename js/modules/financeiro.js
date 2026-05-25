@@ -78,6 +78,7 @@ async function carregarFinanceiro(){
 
   }
 
+carregarClientesFinanceiro();
 }
 
 /* ==========================================
@@ -519,5 +520,110 @@ async function excluirFinanceiroAtual(){
     );
 
   }
+
+}
+
+/* ==========================================
+   CLIENTES FINANCEIRO
+========================================== */
+function carregarClientesFinanceiro(){
+
+  const lista =
+
+    document.getElementById(
+      'clientesFinanceiroLista'
+    );
+
+  if(!lista){
+
+    return;
+  }
+
+  lista.innerHTML = '';
+
+  clientesGlobais.forEach(cliente => {
+
+    const option =
+      document.createElement(
+        'option'
+      );
+
+    option.value =
+      cliente.NOME || '';
+
+    lista.appendChild(option);
+
+  });
+
+}
+
+/* ==========================================
+   PREENCHER TELEFONE
+========================================== */
+function preencherTelefoneFinanceiro(){
+
+  const nome =
+
+    document.getElementById(
+      'finCliente'
+    ).value;
+
+  const telefoneInput =
+
+    document.getElementById(
+      'finTelefone'
+    );
+
+  const cliente =
+
+    clientesGlobais.find(item => {
+
+      return (
+
+        String(item.NOME || '')
+          .toLowerCase()
+          .trim()
+
+        ===
+
+        String(nome || '')
+          .toLowerCase()
+          .trim()
+
+      );
+
+    });
+
+  if(!cliente){
+
+    return;
+  }
+
+  telefoneInput.value =
+    cliente.TELEFONE || '';
+
+}
+
+/* ==========================================
+   MODAL CLIENTE RÁPIDO
+========================================== */
+function abrirModalClienteFinanceiro(){
+
+  const nome = prompt(
+    'Nome do cliente'
+  );
+
+  if(!nome){
+
+    return;
+  }
+
+  document.getElementById(
+    'finCliente'
+  ).value = nome;
+
+  document.getElementById(
+    'finTelefone'
+  ).focus();
 
 }

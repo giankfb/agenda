@@ -362,11 +362,26 @@
         placeholder="Descrição"
       >
 
-      <!-- <input
+      <div class="campo-com-acao">
+
+      <input
+        list="clientesFinanceiroLista"
         type="text"
         id="finCliente"
         placeholder="Cliente"
-      >-->
+        onchange="preencherTelefoneFinanceiro()"
+      >
+
+      <button
+        class="btn-add-inline"
+        onclick="abrirModalClienteFinanceiro()"
+      >
+        +
+      </button>
+
+    </div>
+
+    <datalist id="clientesFinanceiroLista"></datalist>
 
       <input
         type="text"
@@ -374,30 +389,6 @@
         placeholder="Telefone"
         oninput="mascaraTelefone(this)"
       >
-
-      <!-- CLIENTE -->
-      <div class="campo-com-acao">
-
-        <input
-          type="text"
-          id="finCliente"
-          placeholder="Cliente"
-          list="listaClientes"
-          onchange="preencherTelefoneCliente()"
-        >
-
-        <button
-          type="button"
-          class="btn-add-inline"
-          onclick="abrirNovoClienteRapido()"
-        >
-          +
-        </button>
-
-      </div>
-
-      <datalist id="listaClientes"></datalist>
-
 
       <input
         type="text"
