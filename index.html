@@ -362,11 +362,11 @@
         placeholder="Descrição"
       >
 
-      <input
+      <!-- <input
         type="text"
         id="finCliente"
         placeholder="Cliente"
-      >
+      >-->
 
       <input
         type="text"
@@ -374,6 +374,30 @@
         placeholder="Telefone"
         oninput="mascaraTelefone(this)"
       >
+
+      <!-- CLIENTE -->
+      <div class="campo-com-acao">
+
+        <input
+          type="text"
+          id="finCliente"
+          placeholder="Cliente"
+          list="listaClientes"
+          onchange="preencherTelefoneCliente()"
+        >
+
+        <button
+          type="button"
+          class="btn-add-inline"
+          onclick="abrirNovoClienteRapido()"
+        >
+          +
+        </button>
+
+      </div>
+
+      <datalist id="listaClientes"></datalist>
+
 
       <input
         type="text"
