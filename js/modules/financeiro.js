@@ -365,7 +365,7 @@ async function salvarFinanceiro(){
     telefone:
       document.getElementById(
         'finTelefone'
-      ).value,  
+      ).value.trim(),  
 
     valor:
       moedaParaNumero(
