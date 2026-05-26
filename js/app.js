@@ -6,6 +6,7 @@ const state = {
 
   eventos: [],
   clientes: [],
+  tiposEvento: [],
   financeiro: []
 
 };
