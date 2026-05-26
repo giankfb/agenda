@@ -1,6 +1,6 @@
-let eventosGlobais = [];
-
-let clientesGlobais = [];
+/* ==========================================
+    DASHBOARD
+========================================== */
 
 let tiposEventoGlobais = [];
 
@@ -11,68 +11,27 @@ async function carregarDashboard(){
 
   try{
 
-    /* ======================================
-       EVENTOS
-    ====================================== */
-    const eventos =
+    state.eventos =
       await api('listarEventos');
 
-    eventosGlobais =
-      Array.isArray(eventos)
-        ? eventos
-        : [];
-
-
-    /* ======================================
-       CLIENTES
-    ====================================== */
-    const clientes =
+    state.clientes =
       await api('listarClientes');
 
-    clientesGlobais =
-      Array.isArray(clientes)
-        ? clientes
-        : [];
-
-    /* ======================================
-       AUTOCOMPLETE
-    ====================================== */
-    preencherListaClientes();
-
-
-    /* ======================================
-       TIPOS EVENTO
-    ====================================== */
     try{
 
-      const tipos =
-        await api(
-          'listarTiposEvento'
-        );
-
-      tiposEventoGlobais =
-        Array.isArray(tipos)
-          ? tipos
-          : [];
+      state.tiposEvento =
+        await api('listarTiposEvento');
 
     }catch{
 
-      tiposEventoGlobais = [];
+      state.tiposEvento = [];
 
     }
 
-
-    /* ======================================
-       POPULAR
-    ====================================== */
-   
+    preencherListaClientes();
 
     popularTiposEvento();
 
-
-    /* ======================================
-       RENDER
-    ====================================== */
     aplicarFiltros();
 
   }catch(error){
@@ -87,7 +46,7 @@ async function carregarDashboard(){
   }
 
 }
-
+    
 
 /* ==========================================
    FILTROS
@@ -114,7 +73,7 @@ function aplicarFiltros(){
   ====================================== */
   let filtrados =
 
-    eventosGlobais.filter(evento => {
+    state.eventos.filter(evento => {
 
       const cliente =
 
@@ -229,7 +188,7 @@ function popularTiposEvento(){
      fallback padrão
   ====================================== */
   if(
-    !tiposEventoGlobais.length
+    !state.tiposEvento.length
   ){
 
     select.innerHTML = `
@@ -246,7 +205,7 @@ function popularTiposEvento(){
   }
 
 
-  tiposEventoGlobais.forEach(tipo => {
+  state.tiposEvento.forEach(tipo => {
 
     select.innerHTML += `
 
@@ -302,7 +261,7 @@ function toggleCalendario(){
   if(!oculto){
 
     renderizarCalendario(
-      eventosGlobais
+      state.eventos
     );
 
     setTimeout(() => {
@@ -379,4 +338,4 @@ function iniciarEventosDashboard(){
 /* ==========================================
    INIT
 ========================================== */
-iniciarEventosDashboard();
+/*iniciarEventosDashboard();*/

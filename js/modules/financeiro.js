@@ -1,6 +1,8 @@
-let financeiroEditando = null;
+/* ==========================================
+          FINANCEIRO
+========================================== */
 
-let financeiroGlobal = [];
+let financeiroEditando = null;
 
 
 /* ==========================================
@@ -55,30 +57,18 @@ function fecharModalFinanceiro(){
 /* ==========================================
    LISTAR
 ========================================== */
-async function carregarFinanceiro(){
+function await carregarTudo(){
 
-  try{
+  renderizarFinanceiro(
+    state.financeiro
+  );
 
-    financeiroGlobal =
-      await api(
-        'listarFinanceiro'
-      );
+  renderizarDashboardFinanceiro(
+    state.financeiro
+  );
 
-    renderizarFinanceiro(
-      financeiroGlobal
-    );
+  carregarClientesFinanceiro();
 
-    renderizarDashboardFinanceiro(
-      financeiroGlobal
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-carregarClientesFinanceiro();
 }
 
 /* ==========================================
@@ -270,7 +260,7 @@ function renderizarFinanceiro(lista){
 
   let html = '';
 
-  lista.forEach(item => {
+  safeArray(lista)rEach(item => {
 
     html += `
 
@@ -400,7 +390,7 @@ async function salvarFinanceiro(){
 
     fecharModalFinanceiro();
 
-    carregarFinanceiro();
+    await carregarTudo();
 
   }catch(error){
 
@@ -422,7 +412,7 @@ function editarFinanceiro(id){
 
   const item =
 
-    financeiroGlobal.find(fin => {
+     state.financeiro.find(fin => {
 
       return String(fin.ID)
         === String(id);
@@ -508,7 +498,7 @@ async function excluirFinanceiroAtual(){
 
     fecharModalFinanceiro();
 
-    carregarFinanceiro();
+    await carregarTudo();
 
   }catch(error){
 
@@ -541,7 +531,7 @@ function carregarClientesFinanceiro(){
 
   lista.innerHTML = '';
 
-  clientesGlobais.forEach(cliente => {
+  state.clientes.forEach(cliente => {
 
     const option =
       document.createElement(
@@ -576,7 +566,7 @@ function preencherTelefoneFinanceiro(){
 
   const cliente =
 
-    clientesGlobais.find(item => {
+    state.clientes.find(item => {
 
       return (
 
@@ -625,5 +615,27 @@ function abrirModalClienteFinanceiro(){
   document.getElementById(
     'finTelefone'
   ).focus();
+
+}
+
+function safeArray(valor){
+
+  return Array.isArray(valor)
+    ? valor
+    : [];
+
+}
+
+/* ==========================================
+   INIT FINANCEIRO
+========================================== */
+function iniciarEventosFinanceiro(){
+
+  document
+    .getElementById('finCliente')
+    ?.addEventListener(
+      'change',
+      preencherTelefoneFinanceiro
+    );
 
 }

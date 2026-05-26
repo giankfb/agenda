@@ -189,7 +189,7 @@ async function salvarEvento(){
 
     salvandoEvento = true;
 
-    await post(dados);
+    await salvarEventoService(dados);
 
     mostrarToast(
 
@@ -236,7 +236,7 @@ async function editarEvento(id){
 
     const evento =
 
-      eventosGlobais.find(e => {
+       state.eventos.find(e => {
 
         return String(e.ID)
           === String(id);
@@ -327,13 +327,9 @@ async function excluirEvento(id){
 
   try{
 
-    await post({
-
-      action:'excluirEvento',
-
-      id
-
-    });
+    await excluirEventoService(
+      eventoEditando
+    );
 
     mostrarToast(
       'Evento excluído',
@@ -479,5 +475,16 @@ function limparFormularioEvento(){
   getCampo('observacoes').value = '';
 
   getCampo('status').value = 'Pendente';
+
+}
+
+/* ==========================================
+   INIT EVENTOS
+========================================== */
+function iniciarEventosEventos(){
+
+  iniciarMascarasEventos();
+
+  iniciarCalculosEventos();
 
 }
